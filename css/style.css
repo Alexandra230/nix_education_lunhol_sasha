@@ -1,0 +1,238 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+:root{
+    --white:#fff;
+    --black:#000;
+   --blue-bg: #0E49B5;
+   --grey: #767272;
+   --search: #585050;
+   --placeholder:#DDDADA;
+   --like:#F05454;
+   --check:#1BC943;
+   --card-stats:#3B3E66;
+   --card-stats-bg:#E5E5E5;
+   --card-footer:#DAE2EA;
+   --card-border:#E0E0E0;
+}
+html{
+    box-sizing: border-box;
+}
+*,
+*::before,
+*::after{
+    box-sizing:inherit;
+}
+body{
+    margin: 0;
+    font-family: 'Roboto';
+    font-size: 14px;
+    line-height: 1.17; 
+    color: var(--grey);
+}
+.wrapper{
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+img{
+    max-width: 100%;
+    height: auto;
+    vertical-align: top;
+}
+p{
+    margin: 0 0 10px;
+}
+h1{
+    color: var(--white);
+    font-size: 72px;
+    line-height: 1.15; 
+    font-weight: 400;
+}
+h3{
+    color:var(--black);
+    font-family: 'Roboto';
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 1.16;
+}
+
+
+.sort-item{
+  background-color: var(--blue-bg);
+  width: 40px;
+  height: 40px;
+  border:none;
+  margin-left: 13px;
+  color: var(--white);
+  border-radius:50%;
+  -webkit-border-radius:50%;
+  -moz-border-radius:50%;
+  -ms-border-radius:50%;
+  -o-border-radius:50%;
+}
+.sort-item:hover{
+    background: #4682B4;
+}
+.cart{
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--card-border);
+    border-radius:50%;
+
+}
+.addbtn{
+    vertical-align: top;
+    background: var(--blue-bg);
+    border: 1px solid var(--blue-bg);
+    border-radius: 5px;
+    font-family: 'Roboto';
+    padding: 13px 25px;
+    color: var(--white);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.15;
+}
+.addbtn:hover{
+    background: #4682B4;
+    border: 1px solid #4682B4;
+}
+
+.header-wrap{
+    display: flex;
+    padding-top: 8px;
+    justify-content: space-between;
+    align-items: center;
+}
+.banner-info{
+    text-align: center;
+    padding: 180px 0 175px 0;;
+}
+.search-form{
+    display: flex;
+    align-items:center;
+    border: 1px solid #DDDADA;
+box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+border-radius: 5px;
+padding: 20px 25px 20px 23px;
+}
+input:focus {outline: 0;}
+input{
+    border: none;
+}
+input[type="button"]{
+    width: 20px;
+    
+}
+input[type="text"]{
+    width: 90%;
+    font-weight: 400;
+    font-size: 18px;
+    padding: 0 25px 0 23px;
+    color: #767272;
+}
+.cards-container{
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    
+}
+
+.card-cont{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    margin-bottom: 15px;
+}
+.card-img{
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+}
+.like{
+    width: 20px;
+}
+
+.check-round{
+    background: url(../img/icons/check.svg) center no-repeat;
+    width: 20px;
+    height: 20px;
+    border: 1px solid var(--check);
+    border-radius:50%;
+    -webkit-border-radius:50%;
+    -moz-border-radius:50%;
+    -ms-border-radius:50%;
+    -o-border-radius:50%;
+}
+.stock{
+    display: flex;
+}
+.stock p{
+    padding:2px 5px 0 5px;
+}
+.stock img{
+    height: 20px;
+}
+.card-footer{
+    width: 100%;
+    display: flex;
+    background: var(--card-footer);
+    color:var(--card-stats);
+    padding: 15px 10px;
+    justify-content: space-between;
+    align-items: center;
+}
+.col1{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center; 
+}
+.col1 p{
+    margin: 0;
+    padding: 0 0 0 5px;
+}
+.col2{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: center;
+    margin: 0;
+    
+}
+
+@media( min-width: 700px){
+    .container{
+        max-width: 700px;
+        margin: 0 auto;
+        margin-bottom: 35px;
+    }
+    .card{
+        padding-top: 15px;
+        width: 45%;
+        border: 1px solid #DDDADA;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+        border-radius: 5px;
+        margin-top: 50px;
+    }
+   }
+   @media( min-width: 1200px){
+    .container{
+        max-width: 1028px;
+        margin: 0 auto;
+        margin-bottom: 35px;
+    }
+    .card{
+        padding-top: 15px;
+        width: 30%;
+        border: 1px solid #DDDADA;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+        border-radius: 5px;
+        margin-top: 50px;
+    }    
+   }

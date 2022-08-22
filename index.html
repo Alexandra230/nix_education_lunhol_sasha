@@ -7,10 +7,73 @@
       content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
     <link rel="stylesheet" href="css/style.css" />
     <title>MacOutlet</title>
   </head>
   <body>
+    <div class="wrapper">
+      <header class="header">
+        <div class="container">
+          <div class="header-wrap">
+            <div>
+              <a href="#" class="logo">
+                <img src="img/icons/logo.svg" alt="MacOutlet" />
+              </a>
+            </div>
+            <div class="cart">
+              <a href="#">
+                <img src="img/icons/cart.svg" width="20px" alt="cart" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <main class="main">
+        <section
+          class="section-banner"
+          style="background: url(/img/banners/ipad_air_banner.jpg) no-repeat center center"
+        >
+          <div class="container">
+            <div class="banner-info">
+              <h1>IPad Air</h1>
+              <button class="addbtn">Add to cart</button>
+            </div>
+          </div>
+        </section>
+        <section class="section-sort">
+          <div class="container">
+            <form class="search-form">
+              <input
+                class="search"
+                type="button"
+                style="background: url(img/icons/search.svg) no-repeat"
+              />
+              <input
+                type="text"
+                name="searchText"
+                id="searchText"
+                placeholder="Enter device name..."
+              />
+              <button class="sort-item">
+                <img src="img/icons/filter.svg" alt="filter" />
+              </button>
+              <button class="sort-item">
+                <img src="img/icons/settings.svg" alt="settings" />
+              </button>
+            </form>
+          </div>
+        </section>
+        <section class="section-items">
+          <div class="container">
+            <div id="cards-container" class="cards-container"></div>
+          </div>
+        </section>
+      </main>
+    </div>
     <script type="module" src="js/items.js"></script>
     <script type="module" src="js/main.js"></script>
   </body>
