@@ -46,30 +46,62 @@
         </section>
         <section class="section-sort">
           <div class="container">
-            <form class="search-form">
-              <input
-                class="search"
-                type="button"
-                style="background: url(img/icons/search.svg) no-repeat"
-              />
-              <input
-                type="text"
-                name="searchText"
-                id="searchText"
-                placeholder="Enter device name..."
-              />
-              <button class="sort-item">
+            <div class="search-settings">
+              <form class="search-form">
+                <input
+                  class="search"
+                  type="button"
+                  style="background: url(img/icons/search.svg) no-repeat"
+                />
+                <input
+                  type="text"
+                  name="searchText"
+                  id="searchText"
+                  placeholder="Enter device name..."
+                />
+              </form>
+              <button id="open-sort" class="sort-item">
                 <img src="img/icons/filter.svg" alt="filter" />
               </button>
               <button class="sort-item">
                 <img src="img/icons/settings.svg" alt="settings" />
               </button>
-            </form>
+            </div>
           </div>
         </section>
         <section class="section-items">
           <div class="container">
-            <div id="cards-container" class="cards-container"></div>
+            <div id="card-sort-container">
+              <div id="cards-container" class="cards-container"></div>
+              <div id="sort-container" class="sort-container" style="display: none">
+                <div class="price row">
+                  <h4>Price</h4>
+                  <span id="price-show" class="arrow-right"></span>
+                </div>
+                <div id="sort-price" class="sort-price">
+                  <label for="price-from">From: </label
+                  ><input type="number" name="price-from" id="price-from" /><br />
+                  <label for="price-to">To: </label
+                  ><input type="number" name="price-to" id="price-to" />
+                </div>
+                <div class="color row">
+                  <h4>Color</h4>
+                  <span id="color-show" class="arrow-right"></span>
+                </div>
+                <div class="memory row">
+                  <h4>Memory</h4>
+                  <span id="memory-show" class="arrow-right"></span>
+                </div>
+                <div class="os row">
+                  <h4>OS</h4>
+                  <span id="os-show" class="arrow-right"></span>
+                </div>
+                <div class="display row">
+                  <h4>Display</h4>
+                  <span id="display-show" class="arrow-right"></span>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>
