@@ -70,42 +70,70 @@
           </div>
         </section>
         <section class="section-items">
-          <div class="container">
-            <div id="card-sort-container">
-              <div id="cards-container" class="cards-container"></div>
-              <div id="sort-container" class="sort-container" style="display: none">
-                <div class="price row">
-                  <h4>Price</h4>
-                  <span id="price-show" class="arrow-right"></span>
+          <div id="cont-show" class="container">
+            <div id="sort-fields" class="sort-fields">
+              <div class="price-field row">
+                <h4>Price</h4>
+                <span id="price-show" class="arrow-right"></span>
+              </div>
+              <div id="price-sort" class="price-sort cont">
+                <div>
+                  <span>From: </span>
+                  <input type="number" id="from-price" class="from-price" min="1" max="99999999" />
                 </div>
-                <div id="sort-price" class="sort-price">
-                  <label for="price-from">From: </label
-                  ><input type="number" name="price-from" id="price-from" /><br />
-                  <label for="price-to">To: </label
-                  ><input type="number" name="price-to" id="price-to" />
-                </div>
-                <div class="color row">
-                  <h4>Color</h4>
-                  <span id="color-show" class="arrow-right"></span>
-                </div>
-                <div class="memory row">
-                  <h4>Memory</h4>
-                  <span id="memory-show" class="arrow-right"></span>
-                </div>
-                <div class="os row">
-                  <h4>OS</h4>
-                  <span id="os-show" class="arrow-right"></span>
-                </div>
-                <div class="display row">
-                  <h4>Display</h4>
-                  <span id="display-show" class="arrow-right"></span>
+                <div>
+                  <span>To: </span>
+                  <input type="number" id="to-price" class="to-price" min="1" max="99999999" />
                 </div>
               </div>
+              <div class="color-field row">
+                <h4>Color</h4>
+                <span id="color-show" class="arrow-right"></span>
+              </div>
+              <div id="color-sort" class="color-sort cont"></div>
+              <div class="memory-field row">
+                <h4>Memory</h4>
+                <span id="memory-show" class="arrow-right"></span>
+              </div>
+              <div id="memory-sort" class="memory-sort cont"></div>
+              <div class="os-field row">
+                <h4>OS</h4>
+                <span id="os-show" class="arrow-right"></span>
+              </div>
+              <div id="os-sort" class="os-sort cont"></div>
+              <div class="display-field row">
+                <h4>Display</h4>
+                <span id="display-show" class="arrow-right"></span>
+              </div>
+              <div id="display-sort" class="display-sort cont">
+                <div>
+                  <input type="checkbox" name="2-5" id="2-5" /><label for="2-5">2-5 inch</label>
+                </div>
+                <div>
+                  <input type="checkbox" name="5-7" id="5-7" /><label for="5-7">5-7 inch</label>
+                </div>
+                <div>
+                  <input type="checkbox" name="7-12" id="7-12" /><label for="7-12">7-12 inch</label>
+                </div>
+                <div>
+                  <input type="checkbox" name="12-16" id="12-16" /><label for="12-16"
+                    >12-16 inch</label
+                  >
+                </div>
+                <div>
+                  <input type="checkbox" name="16+" id="16+" /><label for="16+">+16 inch</label>
+                </div>
+              </div>
+            </div>
+            <div id="cards" class="cards-container"></div>
+            <div id="modalBack" class="modal">
+              <div id="modal" class="modal-container"></div>
             </div>
           </div>
         </section>
       </main>
     </div>
+
     <script type="module" src="js/items.js"></script>
     <script type="module" src="js/main.js"></script>
   </body>
