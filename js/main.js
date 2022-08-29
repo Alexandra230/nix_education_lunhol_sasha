@@ -147,28 +147,28 @@ function filterGoods() {
     itemColor = [...filters.querySelectorAll('#color-sort input:checked')].map((n) => n.value),
     itemMemory = [...filters.querySelectorAll('#memory-sort input:checked')].map((n) => n.value),
     itemOs = [...filters.querySelectorAll('#os-sort input:checked')].map((n) => n.value),
-    itemDisplay = [...filters.querySelectorAll('#display-sort input:checked')].map((n) => n.value);
+    itemDisplay = [...filters.querySelectorAll('#display-sort input:checked')].map((n) => {
+      return { id: n.value, from: n.value.split('-')[0], to: n.value.split('-')[1] };
+    });
 
-  console.log(String(itemDisplay).split('-')[0]);
-  console.log(itemDisplay.length);
   //
 
   // console.log(itemDisplay[itemDisplay.length - 1][3]);
   outputGoods(
-    items.filter(
-      (n) =>
+    items.filter((n) => {
+      let isExist = n.color.findIndex((item) => itemColor.includes(item));
+      let isDisplayExist = itemDisplay.findIndex((item) => {
+        return item.from > n.display && item.to > n.display;
+      });
+      return (
         (!priceMin || priceMin <= n.price) &&
         (!priceMax || priceMax >= n.price) &&
-        (!itemColor.length ||
-          // itemColor.includes(n.color[0]) ||
-          // itemColor.includes(n.color[1]) ||
-          // itemColor.includes(n.color[2]) ||
-          // itemColor.includes(n.color[3]) ||
-          // itemColor.includes(n.color[4]) ||
-          itemColor.includes(n.color)) &&
+        (!itemColor.length || isExist !== -1) &&
         (!itemMemory.length || itemMemory.find((el) => el == String(n.storage))) &&
-        (!itemOs.length || itemOs.find((el) => el == String(n.os))),
-    ),
+        (!itemOs.length || itemOs.find((el) => el == String(n.os))) &&
+        (!itemDisplay.length || isDisplayExist !== -1)
+      );
+    }),
   );
 }
 
