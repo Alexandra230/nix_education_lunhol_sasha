@@ -79,7 +79,6 @@ let memoryDiv = document.getElementById('memory-sort');
 for (let i = 0; i < memory.length; i++) {
   let check = document.createElement('input');
   check.type = 'checkbox';
-  check.id = `${memory[i]}`;
   check.value = `${memory[i]}`;
   let label = document.createElement('label');
   label.setAttribute('for', `${memory[i]}`);
@@ -151,9 +150,6 @@ function filterGoods() {
       return { id: n.value, from: n.value.split('-')[0], to: n.value.split('-')[1] };
     });
 
-  //
-
-  // console.log(itemDisplay[itemDisplay.length - 1][3]);
   outputGoods(
     items.filter((n) => {
       let isExist = n.color.findIndex((item) => itemColor.includes(item));
@@ -175,17 +171,18 @@ function filterGoods() {
 function outputGoods(element) {
   document.getElementById('cards').innerHTML = element
     .map(
-      (n) => `
+      (n) =>
+        `
   <div class="card" id="${n.id}" > 
   
     <div class="card-cont"><img src="./img/${n.imgUrl}" alt="apple-tv" class="card-img"/>
   <h2>${n.name}</h2>
   <div class="stock"><span class="${n.orderInfo.inStock > 0 ? 'check' : 'close'}"></span><p><b>${
-        n.orderInfo.inStock
-      }
+          n.orderInfo.inStock
+        }
   </b> left in stock</p></div>
   <p>Price: <b>${n.price}</b> $</p>
-  <div class="addbtn">Add to cart</div>
+  <button class="addbtn" >Add to cart</button>
    <div class="card-footer"><div class="col1"><img class="like" src="./img/icons/like_filled.png" alt="like" /><p><b>
     ${n.orderInfo.reviews} %</b> Positive reviews</p><p>Above aletage</p>  </div>
   <div class="col2"> <p><b>${Math.round(
@@ -194,6 +191,29 @@ function outputGoods(element) {
   `,
     )
     .join('');
+
+  items.forEach((element) => {
+    const cardid = element.id;
+
+    const newCard = document.getElementById(`${cardid}`);
+
+    const btn = newCard.querySelector('.addbtn');
+    if (element.orderInfo.inStock === 0) {
+      btn.disabled = 'true';
+    }
+    btn.addEventListener(
+      'click',
+      (event) => addToStorage(event, element.id, element.imgUrl, element.name, element.price),
+      { once: true },
+    );
+  });
+
+  function addToStorage(event, id, img, name, price) {
+    let elem = { deviceId: id, imgURl: img, deviceName: name, devicePrice: price };
+    localStorage.setItem(id, JSON.stringify(elem));
+
+    event.stopPropagation();
+  }
   let cards = document.getElementsByClassName('card');
   for (let i = 0; i < cards.length; i++) {
     cards[i].addEventListener('click', function () {
@@ -244,33 +264,8 @@ function outputGoods(element) {
   }
 }
 outputGoods(items);
-////////////////////////////////////////////////
-const container = document.getElementById('cards');
 
-// items.forEach((element) => {
-//   let text = '';
-//   text += '<div class="card" id="' + element.id + '" > ';
-//   text +=
-//     '<div class="card-cont"><img src="./img/' +
-//     element.imgUrl +
-//     '" alt="apple-tv" class="card-img"/>';
-//   text += '<h2>' + element.name + '</h2>';
-//   text += `<div class="stock"><span class="${
-//     element.orderInfo.inStock > 0 ? 'check' : 'close'
-//   }"></span><p><b>${element.orderInfo.inStock}
-//   </b> left in stock</p></div>`;
-//   text += '<p>Price: <b>' + element.price + '</b> $</p>';
-//   text += '<div class="addbtn">Add to cart</div> ';
-//   text +=
-//     ' <div class="card-footer"><div class="col1"><img class="like" src="./img/icons/like_filled.png" alt="like" /><p><b>' +
-//     element.orderInfo.reviews +
-//     '%</b> Positive reviews</p><p>Above aletage</p>  </div>';
-//   text +=
-//     '<div class="col2"> <p><b>' +
-//     Math.round(Math.random() * (1000 - 300) + 300) +
-//     '</b></p> <p>orders</p> </div>  </div></div></div></div> </div>';
-//   container.innerHTML += text;
-// });
+////////////////////////////////////////////////
 
 document.getElementById('modalBack').addEventListener('click', function () {
   let x = document.getElementById('modal');
@@ -278,4 +273,42 @@ document.getElementById('modalBack').addEventListener('click', function () {
   let x1 = document.getElementById('modalBack');
   x1.style.display = 'none';
   document.getElementById('modal').innerHTML = '';
+});
+///////////////////////////////////////////////////////
+const cartcont = document.getElementById('modal-cart-section');
+const cart = document.getElementById('cart');
+cart.addEventListener('click', function () {
+  if (cartcont.style.display === 'block') {
+    cartcont.style.display = 'none';
+  } else {
+    cartcont.style.display = 'block';
+  }
+});
+///////////////////////////////////////////////////////
+const cartMain = document.getElementById('cart-main');
+let itemsInStorageLength = localStorage.length;
+let itemsInStorage = [];
+function getStorageItem() {}
+for (let i = 0; i < localStorage.length; i++) {
+  itemsInStorage.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
+}
+let ul = document.getElementById('cart-list');
+itemsInStorage.forEach((element) => {
+  let li = document.createElement('li');
+  let div = document.createElement('div');
+  div.setAttribute('class', 'cart-item-div');
+  let deviceInfo = '';
+  deviceInfo +=
+    '<div><img class="cart-item-img" src = "./img/' + element.imgURl + '" alt=""  /></div>';
+  deviceInfo +=
+    '<div class="cart-item-info"><h4>' +
+    element.deviceName +
+    '</h4><div class="cart-item-price-cont"><span class="cart-item-price">$' +
+    element.devicePrice +
+    '</span></div></div>';
+  deviceInfo +=
+    '<div><button id="minusItem">-</button><span id="itemCount"></span><button id="plusItem">+</button><button id="deleteItem">X</button></div>';
+  div.innerHTML += deviceInfo;
+  li.appendChild(div);
+  ul.appendChild(li);
 });
