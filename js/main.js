@@ -1,5 +1,6 @@
 import { items } from './items.js';
 ///////////////////////////
+
 let openSort = document.getElementById('open-sort');
 openSort.addEventListener('click', function () {
   let x = document.getElementById('sort-fields');
@@ -201,16 +202,30 @@ function outputGoods(element) {
     if (element.orderInfo.inStock === 0) {
       btn.disabled = 'true';
     }
-    btn.addEventListener(
-      'click',
-      (event) => addToStorage(event, element.id, element.imgUrl, element.name, element.price),
-      { once: true },
-    );
+    btn.addEventListener('click', (event) => addToStorage(event, element));
   });
+  let cart = [];
+  let storageCart = JSON.parse(localStorage.getItem('cart'));
+  function addToStorage(event, element) {
+    let cartItem = {
+      deviceId: element.id,
+      imgUrl: element.imgUrl,
+      deviceName: element.name,
+      devicePrice: element.price,
+      count: 1,
+    };
+    addToCart(cartItem);
+    cart.push(cartItem);
+    if (storageCart === null) {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    } else {
+      for (let i = 0; i < storageCart.length; i++) {
+        cart.push(storageCart[i]);
+      }
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
 
-  function addToStorage(event, id, img, name, price) {
-    let elem = { deviceId: id, imgURl: img, deviceName: name, devicePrice: price };
-    localStorage.setItem(id, JSON.stringify(elem));
+    console.log(cart);
 
     event.stopPropagation();
   }
@@ -285,21 +300,16 @@ cart.addEventListener('click', function () {
   }
 });
 ///////////////////////////////////////////////////////
-const cartMain = document.getElementById('cart-main');
-let itemsInStorageLength = localStorage.length;
-let itemsInStorage = [];
-function getStorageItem() {}
-for (let i = 0; i < localStorage.length; i++) {
-  itemsInStorage.push(JSON.parse(localStorage.getItem(localStorage.key(i))));
-}
+
 let ul = document.getElementById('cart-list');
-itemsInStorage.forEach((element) => {
+
+function addToCart(element) {
   let li = document.createElement('li');
   let div = document.createElement('div');
   div.setAttribute('class', 'cart-item-div');
   let deviceInfo = '';
   deviceInfo +=
-    '<div><img class="cart-item-img" src = "./img/' + element.imgURl + '" alt=""  /></div>';
+    '<div><img class="cart-item-img" src = "./img/' + element.imgUrl + '" alt=""  /></div>';
   deviceInfo +=
     '<div class="cart-item-info"><h4>' +
     element.deviceName +
@@ -311,4 +321,10 @@ itemsInStorage.forEach((element) => {
   div.innerHTML += deviceInfo;
   li.appendChild(div);
   ul.appendChild(li);
-});
+}
+let itemsInStorage = JSON.parse(localStorage.getItem('cart'));
+// if (itemsInStorage === 0) {
+//   console.log('not okok');
+// } else {
+//   itemsInStorage.forEach((element) => addToCart(element));
+// } не видит картинку , почему? не понимаю
