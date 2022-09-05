@@ -41,9 +41,16 @@
               <ul id="cart-list" class="cart-list"></ul>
             </div>
             <div class="cart-footer">
-              <h3>price</h3>
-              <h3>total</h3>
+              <div class="cart-footer-item">
+                <span>Total amount:</span>
+                <span id="totalAmount">0</span><span><b> ptc.</b></span>
+              </div>
+              <div class="cart-footer-item">
+                <span>Total price:</span>
+                <span id="totalPrice">0</span><span> $</span>
+              </div>
             </div>
+            <button class="addbtn">Buy now</button>
           </div>
         </div>
       </header>
@@ -92,11 +99,11 @@
                 <span id="price-show" class="arrow-right"></span>
               </div>
               <div id="price-sort" class="price-sort cont">
-                <div>
+                <div class="price-fields">
                   <span>From: </span>
                   <input type="number" id="from-price" class="from-price" min="1" max="99999999" />
                 </div>
-                <div>
+                <div class="price-fields">
                   <span>To: </span>
                   <input type="number" id="to-price" class="to-price" min="1" max="99999999" />
                 </div>
@@ -105,7 +112,9 @@
                 <h4>Color</h4>
                 <span id="color-show" class="arrow-right"></span>
               </div>
-              <div id="color-sort" class="color-sort cont"></div>
+              <div id="color-sort" class="color-sort cont">
+                <div id="color-flex" class="color-flex"></div>
+              </div>
               <div class="memory-field row">
                 <h4>Memory</h4>
                 <span id="memory-show" class="arrow-right"></span>
@@ -157,7 +166,8 @@
       </main>
     </div>
 
-    <script type="module" src="js/items.js"></script>
+    <!--    <script type="module" src="js/items.js"></script>
+    <script type="module" src="js/localStorageService.js"></script>-->
     <script type="module" src="js/main.js"></script>
   </body>
 </html>

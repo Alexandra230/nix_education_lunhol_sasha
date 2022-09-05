@@ -1,6 +1,7 @@
 import { items } from './items.js';
+import { LocalStorageService } from './localStorageService.js';
+const ls = new LocalStorageService();
 ///////////////////////////
-
 let openSort = document.getElementById('open-sort');
 openSort.addEventListener('click', function () {
   let x = document.getElementById('sort-fields');
@@ -30,10 +31,11 @@ for (let i = 0; i < items.length; i++) {
 color = color.flat();
 color = color.filter((el, id) => color.indexOf(el) === id);
 
-let colorDiv = document.getElementById('color-sort');
-
+let colorFlex = document.getElementById('color-flex');
 for (let i = 0; i < color.length; i++) {
   let check = document.createElement('input');
+  let div = document.createElement('div');
+  div.setAttribute('class', 'sort-items-div');
   check.type = 'checkbox';
   check.id = `${color[i]}`;
   check.value = `${color[i]}`;
@@ -41,9 +43,9 @@ for (let i = 0; i < color.length; i++) {
   label.setAttribute('for', `${color[i]}`);
 
   label.innerText = `${color[i]}`;
-  // label.setAttribute('class', 'text-inp-dop');
   label.appendChild(check);
-  colorDiv.appendChild(label);
+  div.appendChild(label);
+  colorFlex.appendChild(div);
 }
 
 let priceSort = document.getElementById('price-sort');
@@ -79,14 +81,16 @@ let memoryDiv = document.getElementById('memory-sort');
 
 for (let i = 0; i < memory.length; i++) {
   let check = document.createElement('input');
+  let div = document.createElement('div');
+  div.setAttribute('class', 'sort-items-div');
   check.type = 'checkbox';
   check.value = `${memory[i]}`;
   let label = document.createElement('label');
   label.setAttribute('for', `${memory[i]}`);
   label.innerText = `${memory[i]} Gb`;
-  // label.setAttribute('class', 'text-inp-dop');
   label.appendChild(check);
-  memoryDiv.appendChild(label);
+  div.appendChild(label);
+  memoryDiv.appendChild(div);
 }
 ///////////////////////////////////////////////////
 /////////////////////////////////////////////
@@ -141,6 +145,7 @@ const filters = document.querySelector('#sort-fields');
 
 filters.addEventListener('input', filterGoods);
 let res = 0;
+
 function filterGoods() {
   const priceMin = document.querySelector('#from-price').value,
     priceMax = document.querySelector('#to-price').value,
@@ -151,26 +156,26 @@ function filterGoods() {
       return { id: n.value, from: n.value.split('-')[0], to: n.value.split('-')[1] };
     });
 
-  outputGoods(
-    items.filter((n) => {
-      let isExist = n.color.findIndex((item) => itemColor.includes(item));
-      let isDisplayExist = itemDisplay.findIndex((item) => {
-        return item.from > n.display && item.to > n.display;
-      });
-      return (
-        (!priceMin || priceMin <= n.price) &&
-        (!priceMax || priceMax >= n.price) &&
-        (!itemColor.length || isExist !== -1) &&
-        (!itemMemory.length || itemMemory.find((el) => el == String(n.storage))) &&
-        (!itemOs.length || itemOs.find((el) => el == String(n.os))) &&
-        (!itemDisplay.length || isDisplayExist !== -1)
-      );
-    }),
-  );
+  const filteredItems = items.filter((n) => {
+    let isExist = n.color.findIndex((item) => itemColor.includes(item));
+    let isDisplayExist = itemDisplay.findIndex((item) => {
+      return item.from > n.display && item.to > n.display;
+    });
+    return (
+      (!priceMin || priceMin <= n.price) &&
+      (!priceMax || priceMax >= n.price) &&
+      (!itemColor.length || isExist !== -1) &&
+      (!itemMemory.length || itemMemory.find((el) => el == String(n.storage))) &&
+      (!itemOs.length || itemOs.find((el) => el == String(n.os))) &&
+      (!itemDisplay.length || isDisplayExist !== -1)
+    );
+  });
+
+  outputGoods(filteredItems);
 }
 
-function outputGoods(element) {
-  document.getElementById('cards').innerHTML = element
+function outputGoods(products) {
+  document.getElementById('cards').innerHTML = products
     .map(
       (n) =>
         `
@@ -193,92 +198,98 @@ function outputGoods(element) {
     )
     .join('');
 
-  items.forEach((element) => {
-    const cardid = element.id;
+  products.forEach((product) => {
+    const cardid = product.id;
 
     const newCard = document.getElementById(`${cardid}`);
-
+    newCard.addEventListener('click', () => cardModal(product));
     const btn = newCard.querySelector('.addbtn');
-    if (element.orderInfo.inStock === 0) {
+    if (product.orderInfo.inStock === 0) {
       btn.disabled = 'true';
     }
-    btn.addEventListener('click', (event) => addToStorage(event, element));
+    btn.addEventListener('click', (event) => addToStorage(event, product));
   });
-  let cart = [];
-  let storageCart = JSON.parse(localStorage.getItem('cart'));
-  function addToStorage(event, element) {
-    let cartItem = {
-      deviceId: element.id,
-      imgUrl: element.imgUrl,
-      deviceName: element.name,
-      devicePrice: element.price,
-      count: 1,
-    };
-    addToCart(cartItem);
-    cart.push(cartItem);
-    if (storageCart === null) {
-      localStorage.setItem('cart', JSON.stringify(cart));
-    } else {
-      for (let i = 0; i < storageCart.length; i++) {
-        cart.push(storageCart[i]);
-      }
-      localStorage.setItem('cart', JSON.stringify(cart));
-    }
-
-    console.log(cart);
-
-    event.stopPropagation();
-  }
-  let cards = document.getElementsByClassName('card');
-  for (let i = 0; i < cards.length; i++) {
-    cards[i].addEventListener('click', function () {
-      let element = cards[i];
-      let x = document.getElementById('modal');
-      x.style.display = 'flex';
-      let x1 = document.getElementById('modalBack');
-      x1.style.display = 'block';
-      let text = '';
-
-      text +=
-        '<div class ="modal-img"> <img src="./img/' +
-        items[element.id - 1].imgUrl +
-        '" alt=""  /> </div>';
-      text += ' <div class="modal-info"> <h2>' + items[element.id - 1].name + '</h2> ';
-      text +=
-        ' <div class="modal-footer"><div class="col01"><img class="like" src="./img/icons/like_filled.png" alt="like" /><p><b>' +
-        items[element.id - 1].orderInfo.reviews +
-        '%</b> Positive reviews</p><p>Above aletage</p>  </div>';
-      text +=
-        '<div class="col02"> <p><b>' +
-        Math.round(Math.random() * (1000 - 300) + 300) +
-        '</b></p> <p>orders</p> </div>  </div>';
-      text +=
-        '<ul class="info-list"> <li class="info-item">Color: <b> ' +
-        items[element.id - 1].color +
-        '</b></li> <li class="info-item">Operating System:<b>   ' +
-        items[element.id - 1].os +
-        '</b></li> <li class="info-item">Chip:<b>   ' +
-        items[element.id - 1].chip.name +
-        '</b>  </li> <li class="info-item">Height: <b> ' +
-        items[element.id - 1].size.height +
-        ' cm</b></li> <li class="info-item">Width: <b> ' +
-        items[element.id - 1].size.width +
-        ' cm</b></li> <li class="info-item">Depth: <b> ' +
-        items[element.id - 1].size.depth +
-        ' cm</b></li> <li class="info-item">Weight: <b> ' +
-        items[element.id - 1].size.weight +
-        ' g</b></li> </ul>';
-      text +=
-        '</div> <div class="modal-price"><h2>$ ' +
-        items[element.id - 1].price +
-        '</h2> <span class="leftInStock">Stocks:<b> ' +
-        items[element.id - 1].orderInfo.inStock +
-        '</b> pcs.</span> <button class="addbtn">Add to cart</button> </div>';
-      x.innerHTML += text;
-    });
-  }
 }
+
 outputGoods(items);
+
+function cardModal(element) {
+  let x = document.getElementById('modal');
+  x.style.display = 'flex';
+  let x1 = document.getElementById('modalBack');
+  x1.style.display = 'block';
+  let text = '';
+
+  text +=
+    '<div class ="modal-img"> <img src="./img/' +
+    items[element.id - 1].imgUrl +
+    '" alt=""  /> </div>';
+  text += ' <div class="modal-info"> <h2>' + items[element.id - 1].name + '</h2> ';
+  text +=
+    ' <div class="modal-footer"><div class="col01"><img class="like" src="./img/icons/like_filled.png" alt="like" /><p><b>' +
+    items[element.id - 1].orderInfo.reviews +
+    '%</b> Positive reviews</p><p>Above aletage</p>  </div>';
+  text +=
+    '<div class="col02"> <p><b>' +
+    Math.round(Math.random() * (1000 - 300) + 300) +
+    '</b></p> <p>orders</p> </div>  </div>';
+  text +=
+    '<ul class="info-list"> <li class="info-item">Color: <b> ' +
+    items[element.id - 1].color +
+    '</b></li> <li class="info-item">Operating System:<b>   ' +
+    items[element.id - 1].os +
+    '</b></li> <li class="info-item">Chip:<b>   ' +
+    items[element.id - 1].chip.name +
+    '</b>  </li> <li class="info-item">Height: <b> ' +
+    items[element.id - 1].size.height +
+    ' cm</b></li> <li class="info-item">Width: <b> ' +
+    items[element.id - 1].size.width +
+    ' cm</b></li> <li class="info-item">Depth: <b> ' +
+    items[element.id - 1].size.depth +
+    ' cm</b></li> <li class="info-item">Weight: <b> ' +
+    items[element.id - 1].size.weight +
+    ' g</b></li> </ul>';
+  text +=
+    '</div> <div class="modal-price"><h2>$ ' +
+    items[element.id - 1].price +
+    '</h2> <span class="leftInStock">Stocks:<b> ' +
+    items[element.id - 1].orderInfo.inStock +
+    '</b> pcs.</span> <button class="addbtn">Add to cart</button> </div>';
+  x.innerHTML += text;
+}
+
+let storageCart = ls.get('cart') || [];
+
+function addToStorage(event, item) {
+  const product = storageCart.find((cartProduct) => cartProduct.deviceId === item.id);
+
+  if (!product) {
+    const newCartItem = {
+      deviceId: item.id,
+      imgUrl: item.imgUrl,
+      deviceName: item.name,
+      devicePrice: item.price,
+      quantity: 1,
+      totalPrice: item.price,
+    };
+    storageCart.push(newCartItem);
+    addToCart(newCartItem);
+  }
+
+  if (product && product?.quantity < item.orderInfo.inStock) {
+    product.quantity++;
+    product.totalPrice = product.devicePrice * product.quantity;
+    updateCart(product);
+  }
+
+  ls.set('cart', storageCart);
+  minusItems();
+  plusItems();
+  deleteItems();
+  countTotal();
+  event.stopPropagation();
+}
+///////////////////////////////////////////////////
 
 ////////////////////////////////////////////////
 
@@ -306,6 +317,7 @@ let ul = document.getElementById('cart-list');
 function addToCart(element) {
   let li = document.createElement('li');
   let div = document.createElement('div');
+  li.setAttribute('id', `li_${element.deviceId}`);
   div.setAttribute('class', 'cart-item-div');
   let deviceInfo = '';
   deviceInfo +=
@@ -313,18 +325,112 @@ function addToCart(element) {
   deviceInfo +=
     '<div class="cart-item-info"><h4>' +
     element.deviceName +
-    '</h4><div class="cart-item-price-cont"><span class="cart-item-price">$' +
-    element.devicePrice +
+    '</h4><div class="cart-item-price-cont"><span>$</span><span id="itemPrice_' +
+    element.deviceId +
+    '" class="cart-item-price">' +
+    element.totalPrice +
     '</span></div></div>';
   deviceInfo +=
-    '<div><button id="minusItem">-</button><span id="itemCount"></span><button id="plusItem">+</button><button id="deleteItem">X</button></div>';
+    '<div class="cart-item-count"><button id="minusItem_' +
+    element.deviceId +
+    '" class="minusItem">-</button><span id="itemCount_' +
+    element.deviceId +
+    '">' +
+    element.quantity +
+    '</span><button id="plusItem_' +
+    element.deviceId +
+    '" class="plusItem">+</button><button id="deleteItem_' +
+    element.deviceId +
+    '" class="deleteItem">X</button></div>';
   div.innerHTML += deviceInfo;
   li.appendChild(div);
   ul.appendChild(li);
 }
-let itemsInStorage = JSON.parse(localStorage.getItem('cart'));
-// if (itemsInStorage === 0) {
-//   console.log('not okok');
-// } else {
-//   itemsInStorage.forEach((element) => addToCart(element));
-// } не видит картинку , почему? не понимаю
+
+function updateCart(element) {
+  document.getElementById(`itemCount_${element.deviceId}`).innerText = element.quantity;
+  document.getElementById(`itemPrice_${element.deviceId}`).innerText = element.totalPrice;
+}
+let itemsInStorage = ls.get('cart');
+if (itemsInStorage && itemsInStorage.length > 0) {
+  itemsInStorage.forEach(addToCart);
+  countTotal();
+} else {
+  console.log('Storage is empty');
+}
+function countTotal() {
+  let cartData = ls.get('cart') || {};
+  let totPr = 0;
+  let totAm = 0;
+  for (let itemKey in cartData) {
+    if (cartData.hasOwnProperty(itemKey)) {
+      let item = cartData[itemKey];
+      totPr += Number(item.totalPrice);
+      totAm += item.quantity;
+    }
+  }
+  document.getElementById('totalPrice').innerText = totPr;
+  document.getElementById('totalAmount').innerText = totAm;
+}
+///////////////////////////////////////////////////////////////
+function minusItems() {
+  let arr = Array.from(document.querySelectorAll('.minusItem'));
+  arr.forEach((element) => {
+    element.addEventListener('click', function (e) {
+      let id = e.target.id;
+      id = parseInt(id.match(/\d+/));
+      let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
+      if (product.quantity > 1) {
+        product.quantity--;
+        product.totalPrice = product.totalPrice - product.devicePrice;
+        updateCart(product);
+        ls.set('cart', storageCart);
+        countTotal();
+      }
+    });
+  });
+}
+
+////////////////////////////////////////////////////////////////////////////
+function plusItems() {
+  let arr = Array.from(document.querySelectorAll('.plusItem'));
+  arr.forEach((element) => {
+    element.addEventListener('click', function (e) {
+      let id = e.target.id;
+      id = parseInt(id.match(/\d+/));
+      let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
+      if (product.quantity < 4) {
+        product.quantity++;
+        product.totalPrice = product.totalPrice + product.devicePrice;
+        updateCart(product);
+        ls.set('cart', storageCart);
+        countTotal();
+      }
+    });
+  });
+}
+function deleteItems() {
+  if (itemsInStorage) {
+    let arr = Array.from(document.querySelectorAll('.deleteItem'));
+    arr.forEach((element) => {
+      element.addEventListener('click', function (e) {
+        let id = e.target.id;
+        id = parseInt(id.match(/\d+/));
+        let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
+        document.getElementById(`li_${product.deviceId}`).remove();
+        let index = storageCart.indexOf(product);
+        if (index !== -1) {
+          storageCart.splice(index, 1);
+        }
+
+        ls.set('cart', storageCart);
+        countTotal();
+      });
+    });
+  } else {
+    console.log('Cart is empty');
+  }
+}
+plusItems();
+minusItems();
+deleteItems();

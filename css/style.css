@@ -130,6 +130,9 @@ h4{
     align-items: center;
     justify-content: space-around;
 }
+.cart-item-div div{
+    width: 30%;
+}
 .cart-item-img{
     width: 100px;
 }
@@ -152,6 +155,101 @@ font-size: 12px;
 line-height: 14px;
 color: #4191FF;
 
+}
+.cart-item-count{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+.minusItem, .plusItem{
+    width: 30px;
+    height: 30px;
+    background: #3C44B1;
+    border-radius: 2px;
+    color:white;
+    text-align: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    border:none;
+}
+.minusItem:hover, .plusItem:hover{
+    background: #6a71c9;
+    font-size: 20px;
+}
+.deleteItem{
+    width: 30px;
+    height: 30px;
+    background: rgba(248, 50, 69, 0.15);
+    border-radius: 2px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    color: #F83245;
+    border:none;
+}
+.deleteItem:hover{
+    background: rgba(243, 49, 68, 0.397);
+    color: #f92035;
+    font-size: 20px;
+}
+.cart-footer{
+    display: flex;
+    width: 100%;
+    height: 49px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    background: #EAF6FF;
+    padding: 15px 40px;
+    margin-bottom: 20px;
+}
+.cart-footer-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    
+}
+.from-price{
+    width: 189px;
+height: 38.92px;
+background: #FFFFFF;
+border: 1px solid #E2E2E2;
+border-radius: 5px;
+}
+.to-price{
+    width: 189px;
+    height: 38.92px;
+    background: #FFFFFF;
+    border: 1px solid #E2E2E2;
+    border-radius: 5px;
+}
+.price-fields{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+.color-flex{
+   display: flex;
+   width: 100%;
+   flex-wrap: wrap;
+   flex-direction: row;
+}
+.sort-items-div{
+    width: 50%;
+}
+.sort-items-div label{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
 }
 .addbtn{
     vertical-align: top;
