@@ -1,0 +1,48 @@
+ .table-body {
+    min-height: 100vh;
+    
+   }
+  
+table {
+    width: 100%;
+    max-width: 50rem;
+    margin: 0 auto;
+   
+}
+tr:nth-child(even) th {
+    color: #ccc;
+}
+tr{
+    
+    padding: 0;
+}
+th{
+    width: 15%;
+   
+    margin: 0;
+    border-top: thin dotted #ccc;
+    border-right: thin dotted #ccc;
+}
+td{
+    border-top: thin dotted #ccc;
+    height: 60px;
+    padding: 0;
+}
+.row{
+    position: static;
+    height: 100%;
+    display: flex;
+    padding: 0;
+}
+.task{
+    font-family: serif;
+    font-size: 12px;
+    position: relative;
+    width: 100%;
+    border-radius: 2px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -ms-border-radius: 2px;
+    -o-border-radius: 2px;
+}
+ 
