@@ -1,4 +1,5 @@
 import { shedule } from './shedule.js';
+const pxTomin = 2; //2px=1min
 let myShedule = [...shedule];
 
 const table = document.querySelector('#shedule-table');
@@ -14,11 +15,8 @@ myShedule.forEach((item) => {
   let div = document.getElementById(`${minutes[findMin].elemId}`);
   let childDiv = document.createElement('div');
   childDiv.setAttribute('class', 'task');
-  childDiv.innerText = item.title;
-  childDiv.style.height = `${item.duration}px`;
-  childDiv.style.top = `${item.start - minutes[findMin].from}px`;
-  childDiv.style.background = `${
-    '#' + (Math.random().toString(16) + '000000').substring(2, 8).toUpperCase()
-  }`;
+  childDiv.innerHTML = `<p>${item.title}</p>`;
+  childDiv.style.height = `${item.duration * pxTomin}px`;
+  childDiv.style.top = `${item.start * pxTomin - minutes[findMin].from * pxTomin}px`;
   div.appendChild(childDiv);
 });

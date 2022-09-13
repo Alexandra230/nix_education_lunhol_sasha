@@ -1,5 +1,9 @@
 let shedule = [
-  { start: 0, duration: 15, title: 'Exercise' },
+  {
+    start: 0,
+    duration: 15,
+    title: 'Exerciseefewfwegregregrhgrtheherghhregergregergergergergergerg',
+  },
   { start: 25, duration: 30, title: 'Travel to work' },
   { start: 30, duration: 30, title: 'Plan day' },
   { start: 60, duration: 15, title: "Review yesterday's commits" },
