@@ -54,3 +54,53 @@ th{
     overflow: hidden;
     text-overflow: ellipsis;
   }
+.add-event-modal{
+  display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0);
+  }
+.modal-form-container{
+  float: right;
+  padding: 15px;
+  width: 270px;
+  background: white;
+  border: 1px solid #6E9ECF;
+  font-family:'Open Sans';
+}
+.modal-form div{
+  display: flex;
+  width: 255px;
+    padding-bottom: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+ 
+}
+.title{
+  text-align: center;
+}
+.btn-group{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+input[type="text"]{
+  border: 1px solid #6E9ECF;
+  padding: 5px;
+}
+input[type="text"]::placeholder{
+  font-size: 10px;
+  color:#b5c3d0;
+}
+.form-btn{
+  border:none;
+  padding: 10px;
+  background: #E2ECF5;
+   
+}
+.form-btn:hover{
+  background: #6E9ECF;
+}
