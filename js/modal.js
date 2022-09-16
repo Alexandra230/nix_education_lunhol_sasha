@@ -1,4 +1,5 @@
 import { LocalStorageService } from './localStorage.js';
+import { loadEvents } from './main.js';
 
 const ls = new LocalStorageService();
 let form = document.getElementById('modal-form');
@@ -25,6 +26,7 @@ form.addEventListener('submit', function (event) {
       title: nameEv,
     };
     itemsInStorage.push(newEvent);
+    loadEvents([newEvent]);
     ls.set('events', itemsInStorage);
     if (modal.style.display === 'block') {
       modal.style.display = 'none';

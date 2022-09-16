@@ -54,7 +54,8 @@ th{
     overflow: hidden;
     text-overflow: ellipsis;
   }
-.add-event-modal{
+.add-event-modal,
+.editting-event-modal{
   display: none;
     position: fixed;
     top: 0;
@@ -71,6 +72,14 @@ th{
   border: 1px solid #6E9ECF;
   font-family:'Open Sans';
 }
+.editting-container{
+  float: left;
+  padding: 15px;
+  width: 290px;
+  background: white;
+  border: 1px solid #6E9ECF;
+  font-family:'Open Sans';
+}
 .modal-form div{
   display: flex;
   width: 255px;
@@ -78,6 +87,13 @@ th{
     flex-direction: row;
     justify-content: space-between;
  
+}
+.editting-form div{
+  display: flex;
+  width: 280px;
+    padding-bottom: 10px;
+    flex-direction: row;
+    justify-content: space-between;
 }
 .title{
   text-align: center;
