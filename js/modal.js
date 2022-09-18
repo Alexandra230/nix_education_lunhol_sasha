@@ -3,6 +3,8 @@ import { loadEvents } from './main.js';
 
 const ls = new LocalStorageService();
 let form = document.getElementById('modal-form');
+let editForm = document.getElementById('editting-form');
+let edit = document.getElementById('editting-event-modal');
 
 form.addEventListener('submit', function (event) {
   event.preventDefault();
@@ -37,8 +39,51 @@ form.addEventListener('submit', function (event) {
     console.log('goat');
   }
 });
+
+editForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+  let newNameEv = document.getElementById('editEventName').value;
+  let newFrom = document.getElementById('newStart').value;
+  let newTo = document.getElementById('newEnd').value;
+  if (checkName(newNameEv) && checkTime(newFrom, newTo)) {
+    let itemsInStorage = ls.get('events');
+    let fromHH = newFrom.split(':').splice(0, 1);
+    let fromMM = newFrom.split(':').splice(1, 1);
+    let toHH = newTo.split(':').splice(0, 1);
+    let toMM = newTo.split(':').splice(1, 1);
+    let fromTime = Number(fromHH) * 60 + Number(fromMM);
+    let toTime = Number(toHH) * 60 + Number(toMM);
+    let newDuratuin = toTime - fromTime;
+    let newStart = fromTime - 480;
+    console.log(itemsInStorage);
+    itemsInStorage.find((el) => {
+      if (el.status == 'edit') {
+        el.start = newStart;
+        el.duration = newDuratuin;
+        el.title = newNameEv;
+      }
+    });
+    ls.set('events', itemsInStorage);
+
+    if (edit.style.display === 'block') {
+      edit.style.display = 'none';
+      let itemsInStorage = ls.get('events');
+      itemsInStorage.find((el) => (el.status ? delete el.status : false));
+      ls.set('events', itemsInStorage);
+    } else {
+      edit.style.display = 'block';
+    }
+  } else {
+    console.log(false);
+  }
+});
+
 function checkName(name) {
-  return /^[a-zA-Z\s]+$/.test(name);
+  if (name) {
+    return true;
+  } else {
+    return false;
+  }
 }
 function checkTime(start, end) {
   let reg = /^([0][8-9](:[0-5]\d)|1[0-6](:[0-5]\d)|1[7](:0[0]))$/;

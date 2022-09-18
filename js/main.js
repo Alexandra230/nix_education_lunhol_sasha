@@ -23,7 +23,7 @@ export function loadEvents(items) {
     let div = document.getElementById(`${minutes[findMin].elemId}`);
     let childDiv = document.createElement('div');
     childDiv.setAttribute('class', 'task');
-    childDiv.innerHTML = `<p>${item.title}</p>`;
+    childDiv.innerHTML = `${item.title}`;
     childDiv.style.height = `${item.duration * pxTomin}px`;
     childDiv.style.top = `${item.start * pxTomin - minutes[findMin].from * pxTomin}px`;
     div.appendChild(childDiv);

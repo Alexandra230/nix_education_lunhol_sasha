@@ -2,7 +2,7 @@ let shedule = [
   {
     start: 0,
     duration: 15,
-    title: 'Exerciseefewfwegregregrhgrtheherghhregergregergergergergergerg',
+    title: 'Exercise',
   },
   { start: 25, duration: 30, title: 'Travel to work' },
   { start: 30, duration: 30, title: 'Plan day' },
