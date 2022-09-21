@@ -5,6 +5,7 @@ const ls = new LocalStorageService();
 let form = document.getElementById('modal-form');
 let editForm = document.getElementById('editting-form');
 let edit = document.getElementById('editting-event-modal');
+let modal = document.getElementById('add-event-modal');
 
 form.addEventListener('submit', function (event) {
   event.preventDefault();
@@ -40,8 +41,7 @@ form.addEventListener('submit', function (event) {
   }
 });
 
-editForm.addEventListener('submit', function (event) {
-  //event.preventDefault();
+editForm.addEventListener('submit', function () {
   let newNameEv = document.getElementById('editEventName').value;
   let newFrom = document.getElementById('newStart').value;
   let newTo = document.getElementById('newEnd').value;
@@ -74,21 +74,37 @@ editForm.addEventListener('submit', function (event) {
       edit.style.display = 'block';
     }
   } else {
-    console.log(false);
+    alert('You have problems...');
   }
 });
 
+let delBtn = document.getElementById('delete');
+delBtn.addEventListener('click', function (event) {
+  let itemsInStorage = ls.get('events');
+  let newStor = itemsInStorage.filter((item) => item.status !== 'edit');
+  ls.set('events', newStor);
+  if (edit.style.display === 'block') {
+    edit.style.display = 'none';
+    let itemsInStorage = ls.get('events');
+    itemsInStorage.find((el) => (el.status ? delete el.status : false));
+    ls.set('events', itemsInStorage);
+  } else {
+    edit.style.display = 'block';
+  }
+});
 function checkName(name) {
   if (name) {
     return true;
   } else {
+    alert('Name field is empty');
     return false;
   }
 }
 function checkTime(start, end) {
   let reg = /^([0][8-9](:[0-5]\d)|1[0-6](:[0-5]\d)|1[7](:0[0]))$/;
+  let regend = /^([0][8-9](:[1-5]\d)|1[0-6](:[0-5]\d)|1[7](:[0-3][0-9]))$/;
   let checkStart = reg.test(start);
-  let checkEnd = reg.test(end);
+  let checkEnd = regend.test(end);
   if (checkStart && checkEnd) {
     let fromHH = start.split(':').splice(0, 1);
     let fromMM = start.split(':').splice(1, 1);
@@ -100,12 +116,14 @@ function checkTime(start, end) {
       if (fromMM < toMM) {
         return true;
       } else {
+        alert('Start time must be smaller than end');
         return false;
       }
     } else {
+      alert('Start time must be smaller than end');
       return false;
     }
   } else {
-    alert('Enter valid time HH:MM, start time must be smaller than end');
+    alert('Enter valid time HH:MM');
   }
 }
