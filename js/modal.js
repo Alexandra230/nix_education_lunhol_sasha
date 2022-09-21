@@ -41,7 +41,7 @@ form.addEventListener('submit', function (event) {
 });
 
 editForm.addEventListener('submit', function (event) {
-  event.preventDefault();
+  //event.preventDefault();
   let newNameEv = document.getElementById('editEventName').value;
   let newFrom = document.getElementById('newStart').value;
   let newTo = document.getElementById('newEnd').value;
