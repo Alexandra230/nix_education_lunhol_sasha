@@ -9,7 +9,8 @@ let newEnd = document.getElementById('newEnd');
 
 for (let i = 0; i < row.length; i++) {
   row[i].onclick = function (e) {
-    let element = e.path.find((el) => (el = 'div.task'));
+    let composed = e.composedPath();
+    let element = composed.find((el) => (el = 'div.task'));
     if (element.classList == 'row') {
       if (modal.style.display === 'block') {
         modal.style.display = 'none';
