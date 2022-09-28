@@ -12,7 +12,7 @@ form.addEventListener('submit', function (event) {
   let nameEv = document.getElementById('eventName').value;
   let from = document.getElementById('start').value;
   let to = document.getElementById('end').value;
-
+  let color = document.getElementById('favcolor').value;
   if (checkName(nameEv) && checkTime(from, to)) {
     let itemsInStorage = ls.get('events');
     let fromHH = from.split(':').splice(0, 1);
@@ -27,6 +27,7 @@ form.addEventListener('submit', function (event) {
       start: newStart,
       duration: newDuratuin,
       title: nameEv,
+      background: color,
     };
     itemsInStorage.push(newEvent);
     loadEvents([newEvent]);
@@ -45,6 +46,7 @@ editForm.addEventListener('submit', function () {
   let newNameEv = document.getElementById('editEventName').value;
   let newFrom = document.getElementById('newStart').value;
   let newTo = document.getElementById('newEnd').value;
+  let newColor = document.getElementById('newfavcolor').value;
   if (checkName(newNameEv) && checkTime(newFrom, newTo)) {
     let itemsInStorage = ls.get('events');
     let fromHH = newFrom.split(':').splice(0, 1);
@@ -61,6 +63,7 @@ editForm.addEventListener('submit', function () {
         el.start = newStart;
         el.duration = newDuratuin;
         el.title = newNameEv;
+        el.background = newColor;
       }
     });
     ls.set('events', itemsInStorage);
