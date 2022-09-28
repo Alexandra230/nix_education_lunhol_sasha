@@ -3,11 +3,22 @@ import { LocalStorageService } from './localStorageService.js';
 const ls = new LocalStorageService();
 ///////////////////////////
 let openSort = document.getElementById('open-sort');
+let container = document.getElementById('cont-show');
+let cardsField = document.getElementById('cards');
+let cards = document.getElementsByClassName('card');
 openSort.addEventListener('click', function () {
   let x = document.getElementById('sort-fields');
   if (x.style.display === 'block') {
     x.style.display = 'none';
+    for (let i = 0; i < cards.length; i++) {
+      cards[i].style.width = '30%';
+    }
+    container.style.justifyContent = 'space-between';
   } else {
+    for (let i = 0; i < cards.length; i++) {
+      cards[i].style.width = '40%';
+    }
+    cardsField.style.justifyContent = 'space-around';
     x.style.display = 'block';
   }
 });
@@ -254,10 +265,19 @@ function cardModal(element) {
     items[element.id - 1].price +
     '</h2> <span class="leftInStock">Stocks:<b> ' +
     items[element.id - 1].orderInfo.inStock +
-    '</b> pcs.</span> <button class="addbtn">Add to cart</button> </div>';
+    '</b> pcs.</span> <button id=' +
+    items[element.id - 1].id +
+    'm class="addbtn">Add to cart</button> </div>';
   x.innerHTML += text;
+  let btn = document.getElementById(`${items[element.id - 1].id}m`);
+  if (items[element.id - 1].orderInfo.inStock === 0) {
+    btn.disabled = 'true';
+  }
+  btn.addEventListener('click', (event) => addToStorage(event, items[element.id - 1]));
 }
+let bannerBtn = document.getElementById('34b');
 
+bannerBtn.addEventListener('click', (event) => addToStorage(event, items[10]));
 let storageCart = ls.get('cart') || [];
 
 function addToStorage(event, item) {
@@ -277,9 +297,11 @@ function addToStorage(event, item) {
   }
 
   if (product && product?.quantity < item.orderInfo.inStock) {
-    product.quantity++;
-    product.totalPrice = product.devicePrice * product.quantity;
-    updateCart(product);
+    if (product.quantity < 4) {
+      product.quantity++;
+      product.totalPrice = product.devicePrice * product.quantity;
+      updateCart(product);
+    }
   }
 
   ls.set('cart', storageCart);
@@ -301,7 +323,7 @@ document.getElementById('modalBack').addEventListener('click', function () {
   document.getElementById('modal').innerHTML = '';
 });
 ///////////////////////////////////////////////////////
-const cartcont = document.getElementById('modal-cart-section');
+const cartcont = document.getElementById('close-cart');
 const cart = document.getElementById('cart');
 cart.addEventListener('click', function () {
   if (cartcont.style.display === 'block') {
@@ -309,6 +331,16 @@ cart.addEventListener('click', function () {
   } else {
     cartcont.style.display = 'block';
   }
+});
+cartcont.addEventListener('click', function () {
+  if (cartcont.style.display === 'block') {
+    cartcont.style.display = 'none';
+  } else {
+    cartcont.style.display = 'block';
+  }
+});
+document.getElementById('modal-cart-section').addEventListener('click', function (e) {
+  e.stopPropagation();
 });
 ///////////////////////////////////////////////////////
 
