@@ -1,0 +1,28 @@
+{
+  "type": "commonjs",
+  "name": "node1",
+  "version": "1.0.0",
+  "description": "homework1",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start":"node ./dist/bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexandra230/nix_education_lunhol_sasha.git"
+  },
+  "author": "Oleksandra",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alexandra230/nix_education_lunhol_sasha/issues"
+  },
+  "homepage": "https://github.com/Alexandra230/nix_education_lunhol_sasha#readme",
+  "dependencies": {
+    "webpack": "^5.74.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.10.0"
+  }
+}
