@@ -305,9 +305,7 @@ function addToStorage(event, item) {
   }
 
   ls.set('cart', storageCart);
-  minusItems();
-  plusItems();
-  deleteItems();
+
   countTotal();
   event.stopPropagation();
 }
@@ -377,6 +375,18 @@ function addToCart(element) {
   div.innerHTML += deviceInfo;
   li.appendChild(div);
   ul.appendChild(li);
+  let minusItem = document.getElementById(`minusItem_${element.deviceId}`);
+  let plusItem = document.getElementById(`plusItem_${element.deviceId}`);
+  let deleteItem = document.getElementById(`deleteItem_${element.deviceId}`);
+  minusItem.addEventListener('click', () => {
+    minusItems(minusItem.id);
+  });
+  plusItem.addEventListener('click', () => {
+    plusItems(plusItem.id);
+  });
+  deleteItem.addEventListener('click', () => {
+    deleteItems(deleteItem.id);
+  });
 }
 
 function updateCart(element) {
@@ -405,64 +415,43 @@ function countTotal() {
   document.getElementById('totalAmount').innerText = totAm;
 }
 ///////////////////////////////////////////////////////////////
-function minusItems() {
-  let arr = Array.from(document.querySelectorAll('.minusItem'));
-  arr.forEach((element) => {
-    element.addEventListener('click', function (e) {
-      let id = e.target.id;
-      id = parseInt(id.match(/\d+/));
-      let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
-      if (product.quantity > 1) {
-        product.quantity--;
-        product.totalPrice = product.totalPrice - product.devicePrice;
-        updateCart(product);
-        ls.set('cart', storageCart);
-        countTotal();
-      }
-    });
-  });
+function minusItems(id) {
+  id = parseInt(id.match(/\d+/));
+  let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
+  if (product.quantity > 1) {
+    product.quantity--;
+    product.totalPrice = product.totalPrice - product.devicePrice;
+    updateCart(product);
+    ls.set('cart', storageCart);
+    countTotal();
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////////
-function plusItems() {
-  let arr = Array.from(document.querySelectorAll('.plusItem'));
-  arr.forEach((element) => {
-    element.addEventListener('click', function (e) {
-      let id = e.target.id;
-      id = parseInt(id.match(/\d+/));
-      let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
-      if (product.quantity < 4) {
-        product.quantity++;
-        product.totalPrice = product.totalPrice + product.devicePrice;
-        updateCart(product);
-        ls.set('cart', storageCart);
-        countTotal();
-      }
-    });
-  });
+function plusItems(id) {
+  id = parseInt(id.match(/\d+/));
+  let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
+  if (product.quantity < 4) {
+    product.quantity++;
+    product.totalPrice = product.totalPrice + product.devicePrice;
+    updateCart(product);
+    ls.set('cart', storageCart);
+    countTotal();
+  }
 }
-function deleteItems() {
+function deleteItems(id) {
   if (itemsInStorage) {
-    let arr = Array.from(document.querySelectorAll('.deleteItem'));
-    arr.forEach((element) => {
-      element.addEventListener('click', function (e) {
-        let id = e.target.id;
-        id = parseInt(id.match(/\d+/));
-        let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
-        document.getElementById(`li_${product.deviceId}`).remove();
-        let index = storageCart.indexOf(product);
-        if (index !== -1) {
-          storageCart.splice(index, 1);
-        }
+    id = parseInt(id.match(/\d+/));
+    let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
+    document.getElementById(`li_${product.deviceId}`).remove();
+    let index = storageCart.indexOf(product);
+    if (index !== -1) {
+      storageCart.splice(index, 1);
+    }
 
-        ls.set('cart', storageCart);
-        countTotal();
-      });
-    });
+    ls.set('cart', storageCart);
+    countTotal();
   } else {
     console.log('Cart is empty');
   }
 }
-plusItems();
-minusItems();
-deleteItems();
