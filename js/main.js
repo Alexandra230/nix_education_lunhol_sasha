@@ -455,3 +455,6 @@ function deleteItems(id) {
     console.log('Cart is empty');
   }
 }
+fetch('http://localhost:8000')
+  .then((response) => response.json())
+  .then((json) => console.log(json));
