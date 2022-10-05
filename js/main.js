@@ -458,3 +458,11 @@ function deleteItems(id) {
 fetch('http://localhost:8000')
   .then((response) => response.json())
   .then((json) => console.log(json));
+
+fetch('http://localhost:8000')
+  .then((response) => {
+    return response.json();
+  })
+  .then((data) => {
+    console.log(data);
+  });
