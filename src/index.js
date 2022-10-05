@@ -6,13 +6,12 @@ const host = 'localhost';
 const port = 8000;
 let result = [];
 const requestListener = function (req, res) {
-  res.writeHead(200);
-  res.end('My first server!');
+  res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
   fs.createReadStream(__dirname + '/device.csv')
     .pipe(csv())
     .on('data', (data) => result.push(data))
     .on('end', () => {
-      console.log(result);
+      res.end(JSON.stringify(result));
     });
 };
 
