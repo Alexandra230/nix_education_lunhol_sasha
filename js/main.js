@@ -455,14 +455,16 @@ function deleteItems(id) {
     console.log('Cart is empty');
   }
 }
-fetch('http://localhost:8000')
-  .then((response) => response.json())
-  .then((json) => console.log(json));
 
-fetch('http://localhost:8000')
-  .then((response) => {
-    return response.json();
-  })
-  .then((data) => {
-    console.log(data);
-  });
+/* fetch('http://localhost:8000', { mode: 'no-cors' })
+  .then((response) => console.log(response.json()))
+  .catch((err) => console.log(err)); */
+fetch('http://localhost:8000', {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  mode: 'no-cors',
+})
+  .then((response) => console.log(response.json()))
+  .catch((err) => console.log(err));
