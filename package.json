@@ -1,5 +1,5 @@
 {
-  "type": "commonjs",
+  "type": "module",
   "name": "node1",
   "version": "1.0.0",
   "description": "homework1",
@@ -7,6 +7,7 @@
   "scripts": {
     "build": "webpack",
     "start":"node ./dist/bundle.js",
+    "start2":"node ./src/index2.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
