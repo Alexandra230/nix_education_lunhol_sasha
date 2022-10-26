@@ -1,0 +1,26 @@
+{
+  "name": "nix_education_lunhol_sasha",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./src/express.js",
+    "seed" : "node ./src/connection/seed.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexandra230/nix_education_lunhol_sasha.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alexandra230/nix_education_lunhol_sasha/issues"
+  },
+  "homepage": "https://github.com/Alexandra230/nix_education_lunhol_sasha#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mogoose": "^0.0.1-security",
+    "mongodb": "^4.11.0",
+    "mongoose": "^5.13.15"
+  }
+}
