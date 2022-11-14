@@ -12,10 +12,42 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/reg.css" />
     <title>MacOutlet</title>
   </head>
   <body>
-    <div class="wrapper">
+    <div id="form-container-signup" class="form-container">
+      <div class="exit" id="exit-signup"><p>X</p></div>
+      <div class="reg-title"><h3>Registration</h3></div>
+
+      <form id="form-signup" class="form" name="formSignup">
+        <label class="lbl" for="username">User name</label>
+        <input class="form-input" type="text" name="username" id="username-signup" />
+        <label class="lbl" for="email">Email</label>
+        <input class="form-input" type="text" name="email" id="email-signup" />
+        <label class="lbl" for="password">Password</label>
+        <input class="form-input" type="text" name="password" id="password-signup" />
+
+        <input type="submit" value="Sign up" />
+        <button id="to-login-form">Login</button>
+      </form>
+    </div>
+    <div id="form-container-login" class="form-container">
+      <div class="exit" id="exit-login"><p>X</p></div>
+      <div class="reg-title"><h3>Login</h3></div>
+      <form id="form-login" class="form" name="formLogin">
+        <label class="lbl" for="username">User name</label>
+        <input class="form-input" type="text" name="username" id="username-login" />
+        <label class="lbl" for="password">Password</label>
+
+        <input class="form-input" type="text" name="password" id="password-login" />
+
+        <input type="submit" value="Login" />
+
+        <button id="to-signup-form"><u>Sign up</u></button>
+      </form>
+    </div>
+    <div class="wrapper" id="wrapper">
       <header class="header">
         <div class="container">
           <div class="header-wrap">
@@ -171,5 +203,9 @@
     <!--    <script type="module" src="js/items.js"></script>
     <script type="module" src="js/localStorageService.js"></script>-->
     <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/signup/signup.js"></script>
+    <script type="module" src="js/login/login.js"></script>
+    <script type="module" src="js/signup/closeandswitchS.js"></script>
+    <script type="module" src="js/login/closeandswitchI.js"></script>
   </body>
 </html>

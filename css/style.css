@@ -13,6 +13,7 @@
    --card-footer:#DAE2EA;
    --card-border:#E0E0E0;
 }
+
 html{
     box-sizing: border-box;
 }
@@ -29,6 +30,7 @@ body{
     color: var(--grey);
 }
 .wrapper{
+    display: none;
     width: 100%;
     overflow: hidden;
     position: relative;
