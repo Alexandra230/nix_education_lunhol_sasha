@@ -84,15 +84,18 @@ router.get('/cards', auth, async (req, res) => {
       .clone(),
   );
 });
-router.get('cards/:name', auth, async (req, res) => {
-  items.createIndex({ subtitle: 'text', description: 'text' });
-  const item = await items.find({ name: { $regex: req.params.name } });
+
+router.get('/name', auth, async (req, res) => {
+  let valueName = req.query.name;
+
+  const item = await items.find({ name: { $regex: valueName } });
+
   if (!item) {
     res.status(404).send({
       message: 'item is not found',
     });
   } else {
-    res.send(item);
+    res.json(item);
   }
 });
 module.exports = router;
