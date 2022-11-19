@@ -1,23 +1,24 @@
 import { LocalStorageService } from './localStorageService.js';
+const ls = new LocalStorageService();
+let openSort = document.getElementById('open-sort');
+let container = document.getElementById('cont-show');
+let cardsField = document.getElementById('cards');
+let cards = document.getElementsByClassName('card');
+let colorFilter = [];
+
+let findInput = document.getElementById('searchText');
+let os = [];
+
 function main(items) {
-  const ls = new LocalStorageService();
-
-  ///////////////////////////
-  let openSort = document.getElementById('open-sort');
-  let container = document.getElementById('cont-show');
-  let cardsField = document.getElementById('cards');
-  let cards = document.getElementsByClassName('card');
-  let findInput = document.getElementById('searchText');
-
   findInput.addEventListener('input', async function () {
+    let t = ls.get('token');
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', `http://localhost:8000/users/cards/${findInput.value}`);
-
+    xhr.open('GET', `http://localhost:8000/users/name?name=${findInput.value}`);
+    xhr.setRequestHeader('x-access-token', t);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-        search = JSON.parse(xhr.response);
-        console.log(search);
-        //main(items);
+        let search = JSON.parse(xhr.response);
+        outputGoods(search, 30);
       }
     };
 
@@ -52,26 +53,68 @@ function main(items) {
       colorSort.style.display = 'none';
     }
   });
-
-  let color = [];
-  for (let i = 0; i < items.length; i++) {
-    color.push(items[i].color_0);
-  }
-  color = color.flat();
-  color = color.filter((el, id) => color.indexOf(el) === id);
+  items.forEach((e) => {
+    if (e.color_0) {
+      if (colorFilter[e.color_0] == null) {
+        colorFilter[e.color_0] = [];
+      }
+      colorFilter[e.color_0].push(e);
+    }
+    if (e.color_1) {
+      if (colorFilter[e.color_1] == null) {
+        colorFilter[e.color_1] = [];
+      }
+      colorFilter[e.color_1].push(e);
+    }
+    if (e.color_2) {
+      if (colorFilter[e.color_2] == null) {
+        colorFilter[e.color_2] = [];
+      }
+      colorFilter[e.color_2].push(e);
+    }
+    if (e.color_3) {
+      if (colorFilter[e.color_3] == null) {
+        colorFilter[e.color_3] = [];
+      }
+      colorFilter[e.color_3].push(e);
+    }
+    if (e.color_4) {
+      if (colorFilter[e.color_4] == null) {
+        colorFilter[e.color_4] = [];
+      }
+      colorFilter[e.color_4].push(e);
+    }
+    if (e.color_5) {
+      if (colorFilter[e.color_5] == null) {
+        colorFilter[e.color_5] = [];
+      }
+      colorFilter[e.color_5].push(e);
+    }
+    if (e.os == '') {
+      if (os['other'] == null) {
+        os['other'] = [];
+      }
+      os['other'].push(e);
+    } else {
+      if (os[e.os] == null) {
+        os[e.os] = [];
+      }
+      os[e.os].push(e);
+    }
+  });
 
   let colorFlex = document.getElementById('color-flex');
-  for (let i = 0; i < color.length; i++) {
+  for (let i = 0; i < Object.keys(colorFilter).length; i++) {
     let check = document.createElement('input');
     let div = document.createElement('div');
     div.setAttribute('class', 'sort-items-div');
     check.type = 'checkbox';
-    check.id = `${color[i]}`;
-    check.value = `${color[i]}`;
+    check.id = `${Object.keys(colorFilter)[i]}`;
+    check.value = `${Object.keys(colorFilter)[i]}`;
     let label = document.createElement('label');
-    label.setAttribute('for', `${color[i]}`);
+    label.setAttribute('for', `${Object.keys(colorFilter)[i]}`);
 
-    label.innerText = `${color[i]}`;
+    label.innerText = `${Object.keys(colorFilter)[i]}`;
     label.appendChild(check);
     div.appendChild(label);
     colorFlex.appendChild(div);
@@ -134,25 +177,20 @@ function main(items) {
       osSort.style.display = 'none';
     }
   });
-
-  let os = [];
-  for (let i = 0; i < items.length; i++) {
-    os.push(items[i].os);
-  }
-
-  os = os.filter((el, id) => os.indexOf(el) === id);
+  console.log(os);
 
   let osDiv = document.getElementById('os-sort');
 
-  for (let i = 0; i < os.length; i++) {
+  for (let i = 0; i < Object.keys(os).length; i++) {
     let check = document.createElement('input');
     check.type = 'checkbox';
-    check.id = `${os[i]}`;
-    check.value = `${os[i]}`;
     let label = document.createElement('label');
-    label.setAttribute('for', `${os[i]}`);
-    label.innerText = `${os[i]}`;
-    // label.setAttribute('class', 'text-inp-dop');
+
+    check.id = `${Object.keys(os)[i]}`;
+    check.value = `${Object.keys(os)[i]}`;
+    label.setAttribute('for', `${Object.keys(os)[i]}`);
+    label.innerText = `${Object.keys(os)[i]}`;
+
     label.appendChild(check);
     osDiv.appendChild(label);
   }
@@ -183,35 +221,49 @@ function main(items) {
       priceMax = document.querySelector('#to-price').value,
       itemColor = [...filters.querySelectorAll('#color-sort input:checked')].map((n) => n.value),
       itemMemory = [...filters.querySelectorAll('#memory-sort input:checked')].map((n) => n.value),
-      itemOs = [...filters.querySelectorAll('#os-sort input:checked')].map((n) => n.value),
+      itemOs = [...filters.querySelectorAll('#os-sort input:checked')].map((n) => {
+        if (n.value == 'other') {
+          return '';
+        } else {
+          return n.value;
+        }
+      }),
       itemDisplay = [...filters.querySelectorAll('#display-sort input:checked')].map((n) => {
         return { id: n.value, from: n.value.split('-')[0], to: n.value.split('-')[1] };
       });
 
     const filteredItems = items.filter((n) => {
-      let isExist = n.color.findIndex((item) => itemColor.includes(item));
+      let isExist = itemColor.find(
+        (el) =>
+          el == n.color_0 ||
+          el == n.color_1 ||
+          el == n.color_2 ||
+          el == n.color_3 ||
+          el == n.color_4 ||
+          el == n.color_5,
+      );
       let isDisplayExist = itemDisplay.findIndex((item) => {
         return item.from > n.display && item.to > n.display;
       });
       return (
         (!priceMin || priceMin <= n.price) &&
         (!priceMax || priceMax >= n.price) &&
-        (!itemColor.length || isExist !== -1) &&
+        (!itemColor.length || isExist) &&
         (!itemMemory.length || itemMemory.find((el) => el == String(n.storage))) &&
-        (!itemOs.length || itemOs.find((el) => el == String(n.os))) &&
+        (!itemOs.length || itemOs.includes(n.os)) &&
         (!itemDisplay.length || isDisplayExist !== -1)
       );
     });
 
-    outputGoods(filteredItems);
+    outputGoods(filteredItems, 40);
   }
 
-  function outputGoods(products) {
+  function outputGoods(products, w) {
     document.getElementById('cards').innerHTML = products
       .map(
         (n) =>
           `
-  <div class="card" id="${n.id}" >
+  <div class="card" id="${n.id}" style="width: ${w}%">
 
     <div class="card-cont"><img src="./img/${n.imgUrl}" alt="apple-tv" class="card-img"/>
   <h2>${n.name}</h2>
@@ -243,7 +295,7 @@ function main(items) {
     });
   }
 
-  outputGoods(items);
+  outputGoods(items, 30);
 
   function cardModal(element) {
     let x = document.getElementById('modal');
@@ -251,7 +303,7 @@ function main(items) {
     let x1 = document.getElementById('modalBack');
     x1.style.display = 'block';
     let text = '';
-
+    console.log(element);
     text +=
       '<div class ="modal-img"> <img src="./img/' +
       items[element.id - 1].imgUrl +
@@ -259,7 +311,7 @@ function main(items) {
     text += ' <div class="modal-info"> <h2>' + items[element.id - 1].name + '</h2> ';
     text +=
       ' <div class="modal-footer"><div class="col01"><img class="like" src="./img/icons/like_filled.png" alt="like" /><p><b>' +
-      items[element.id - 1].orderInfo.reviews +
+      items[element.id - 1].orderInfo_reviews +
       '%</b> Positive reviews</p><p>Above aletage</p>  </div>';
     text +=
       '<div class="col02"> <p><b>' +
@@ -267,30 +319,41 @@ function main(items) {
       '</b></p> <p>orders</p> </div>  </div>';
     text +=
       '<ul class="info-list"> <li class="info-item">Color: <b> ' +
-      items[element.id - 1].color +
+      items[element.id - 1].color_0 +
+      '</b><b> ' +
+      items[element.id - 1].color_1 +
+      '</b><b> ' +
+      items[element.id - 1].color_2 +
+      '</b><b> ' +
+      items[element.id - 1].color_3 +
+      '</b><b> ' +
+      items[element.id - 1].color_4 +
+      '</b><b> ' +
+      items[element.id - 1].color_5 +
       '</b></li> <li class="info-item">Operating System:<b>   ' +
       items[element.id - 1].os +
       '</b></li> <li class="info-item">Chip:<b>   ' +
-      items[element.id - 1].chip.name +
+      items[element.id - 1].chip_name +
       '</b>  </li> <li class="info-item">Height: <b> ' +
-      items[element.id - 1].size.height +
+      items[element.id - 1].size_height +
       ' cm</b></li> <li class="info-item">Width: <b> ' +
-      items[element.id - 1].size.width +
+      items[element.id - 1].size_width +
       ' cm</b></li> <li class="info-item">Depth: <b> ' +
-      items[element.id - 1].size.depth +
+      items[element.id - 1].size_depth +
       ' cm</b></li> <li class="info-item">Weight: <b> ' +
-      items[element.id - 1].size.weight +
+      items[element.id - 1].size_weight +
       ' g</b></li> </ul>';
     text +=
       '</div> <div class="modal-price"><h2>$ ' +
       items[element.id - 1].price +
       '</h2> <span class="leftInStock">Stocks:<b> ' +
-      items[element.id - 1].orderInfo.inStock +
+      items[element.id - 1].orderInfo_inStock +
       '</b> pcs.</span> <button id=' +
       items[element.id - 1].id +
       'm class="addbtn">Add to cart</button> </div>';
     x.innerHTML += text;
     let btn = document.getElementById(`${items[element.id - 1].id}m`);
+
     if (items[element.id - 1].orderInfo_inStock === 0) {
       btn.disabled = 'true';
     }
@@ -438,7 +501,7 @@ function main(items) {
   ///////////////////////////////////////////////////////////////
   function minusItems(id) {
     id = parseInt(id.match(/\d+/));
-    let product = storageCart.find((cartProduct) => cartProduct.deviceId === '' + id);
+    let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
     if (product.quantity > 1) {
       product.quantity--;
       product.totalPrice = Number(product.totalPrice) - Number(product.devicePrice);
@@ -451,8 +514,8 @@ function main(items) {
   ////////////////////////////////////////////////////////////////////////////
   function plusItems(id) {
     id = parseInt(id.match(/\d+/));
-    let product = storageCart.find((cartProduct) => cartProduct.deviceId === '' + id);
-    console.log(product);
+    let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
+
     if (product.quantity < 4) {
       product.quantity++;
       product.totalPrice = Number(product.totalPrice) + Number(product.devicePrice);
@@ -464,7 +527,7 @@ function main(items) {
   function deleteItems(id) {
     if (itemsInStorage) {
       id = parseInt(id.match(/\d+/));
-      let product = storageCart.find((cartProduct) => cartProduct.deviceId === '' + id);
+      let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
       document.getElementById(`li_${product.deviceId}`).remove();
       let index = storageCart.indexOf(product);
       if (index !== -1) {
