@@ -9,7 +9,6 @@ async function loadItems(t) {
   xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
       items = JSON.parse(xhr.response);
-      console.log(items);
       main(items);
     }
   };

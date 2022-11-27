@@ -9,9 +9,7 @@ async function sendForm(e) {
   let username = document.getElementById('username-signup').value;
   let email = document.getElementById('email-signup').value;
   let password = document.getElementById('password-signup').value;
-  console.log(username);
-  console.log(email);
-  console.log(password);
+
   const xhr = new XMLHttpRequest();
   xhr.open('POST', 'http://localhost:8000/users/signup', true);
 
@@ -26,8 +24,13 @@ async function sendForm(e) {
         signupForm.style.display = 'none';
         loginForm.style.display = 'block';
       }
+    } else if (xhr.status != 200) {
+      alert(`Error ${xhr.status}: ${JSON.parse(xhr.response).msg}`);
+
+      document.formSignup.reset();
     }
   };
+
   xhr.send(`username=${username}&email=${email}&password=${password}`);
 }
 

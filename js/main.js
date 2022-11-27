@@ -5,11 +5,11 @@ let container = document.getElementById('cont-show');
 let cardsField = document.getElementById('cards');
 let cards = document.getElementsByClassName('card');
 let colorFilter = [];
-
 let findInput = document.getElementById('searchText');
 let os = [];
 
 function main(items) {
+  let userId = ls.get('user');
   findInput.addEventListener('input', async function () {
     let t = ls.get('token');
     let xhr = new XMLHttpRequest();
@@ -44,6 +44,16 @@ function main(items) {
   ///////////////////////////////
   let colorSort = document.getElementById('color-sort');
   let colorShow = document.getElementById('color-show');
+  let colorField = document.getElementById('color-field');
+  colorField.addEventListener('click', function () {
+    if (colorShow.getAttribute('class') === 'arrow-right' && colorSort.style.display === 'none') {
+      colorShow.setAttribute('class', 'arrow-bottom');
+      colorSort.style.display = 'block';
+    } else {
+      colorShow.setAttribute('class', 'arrow-right');
+      colorSort.style.display = 'none';
+    }
+  });
   colorShow.addEventListener('click', function () {
     if (colorShow.getAttribute('class') === 'arrow-right' && colorSort.style.display === 'none') {
       colorShow.setAttribute('class', 'arrow-bottom');
@@ -121,7 +131,18 @@ function main(items) {
   }
 
   let priceSort = document.getElementById('price-sort');
+  let priceField = document.getElementById('price-field');
   let price = document.getElementById('price-show');
+  priceField.addEventListener('click', function () {
+    if (price.getAttribute('class') === 'arrow-right' && priceSort.style.display === 'none') {
+      price.setAttribute('class', 'arrow-bottom');
+      priceSort.style.display = 'block';
+    } else {
+      price.setAttribute('class', 'arrow-right');
+      priceSort.style.display = 'none';
+    }
+    countMinMax();
+  });
   price.addEventListener('click', function () {
     if (price.getAttribute('class') === 'arrow-right' && priceSort.style.display === 'none') {
       price.setAttribute('class', 'arrow-bottom');
@@ -130,11 +151,45 @@ function main(items) {
       price.setAttribute('class', 'arrow-right');
       priceSort.style.display = 'none';
     }
+    countMinMax();
   });
+  function countMinMax() {
+    let min = document.getElementById('from-price');
+    let max = document.getElementById('to-price');
+    let allPrice = [];
+    items.forEach((e) => {
+      allPrice.push(Number(e.price));
+    });
+    let uniqueArray = allPrice.filter(function (item, pos) {
+      return allPrice.indexOf(item) == pos;
+    });
 
+    let preMax = uniqueArray.sort(function (a, b) {
+      return a - b;
+    });
+    min.setAttribute('min', preMax[0]);
+    min.setAttribute('max', preMax[preMax.length - 2]);
+    min.setAttribute('placeholder', preMax[0]);
+
+    max.setAttribute('min', preMax[1]);
+    max.setAttribute('max', preMax[preMax.length - 1]);
+    max.setAttribute('placeholder', preMax[preMax.length - 1]);
+  }
   /////////////////////////////////////////////////
   let memorySort = document.getElementById('memory-sort');
   let memoryShow = document.getElementById('memory-show');
+  let memoryField = document.getElementById('memory-field');
+
+  memoryField.addEventListener('click', function () {
+    if (memoryShow.getAttribute('class') === 'arrow-right' && memorySort.style.display === 'none') {
+      memoryShow.setAttribute('class', 'arrow-bottom');
+      memorySort.style.display = 'block';
+    } else {
+      memoryShow.setAttribute('class', 'arrow-right');
+      memorySort.style.display = 'none';
+    }
+  });
+
   memoryShow.addEventListener('click', function () {
     if (memoryShow.getAttribute('class') === 'arrow-right' && memorySort.style.display === 'none') {
       memoryShow.setAttribute('class', 'arrow-bottom');
@@ -168,6 +223,18 @@ function main(items) {
   /////////////////////////////////////////////
   let osSort = document.getElementById('os-sort');
   let osShow = document.getElementById('os-show');
+  let osField = document.getElementById('os-field');
+
+  osField.addEventListener('click', function () {
+    if (osShow.getAttribute('class') === 'arrow-right' && osSort.style.display === 'none') {
+      osShow.setAttribute('class', 'arrow-bottom');
+      osSort.style.display = 'block';
+    } else {
+      osShow.setAttribute('class', 'arrow-right');
+      osSort.style.display = 'none';
+    }
+  });
+
   osShow.addEventListener('click', function () {
     if (osShow.getAttribute('class') === 'arrow-right' && osSort.style.display === 'none') {
       osShow.setAttribute('class', 'arrow-bottom');
@@ -177,12 +244,13 @@ function main(items) {
       osSort.style.display = 'none';
     }
   });
-  console.log(os);
 
   let osDiv = document.getElementById('os-sort');
 
   for (let i = 0; i < Object.keys(os).length; i++) {
     let check = document.createElement('input');
+    let div = document.createElement('div');
+    div.setAttribute('class', 'os-div');
     check.type = 'checkbox';
     let label = document.createElement('label');
 
@@ -191,13 +259,29 @@ function main(items) {
     label.setAttribute('for', `${Object.keys(os)[i]}`);
     label.innerText = `${Object.keys(os)[i]}`;
 
-    label.appendChild(check);
-    osDiv.appendChild(label);
+    div.appendChild(check);
+    div.appendChild(label);
+    osDiv.appendChild(div);
   }
   /////////////////////////////////////////////
   /////////////////////////////////////////////
   let displaySort = document.getElementById('display-sort');
   let displayShow = document.getElementById('display-show');
+  let displayField = document.getElementById('display-field');
+
+  displayField.addEventListener('click', function () {
+    if (
+      displayShow.getAttribute('class') === 'arrow-right' &&
+      displaySort.style.display === 'none'
+    ) {
+      displayShow.setAttribute('class', 'arrow-bottom');
+      displaySort.style.display = 'block';
+    } else {
+      displayShow.setAttribute('class', 'arrow-right');
+      displaySort.style.display = 'none';
+    }
+  });
+
   displayShow.addEventListener('click', function () {
     if (
       displayShow.getAttribute('class') === 'arrow-right' &&
@@ -362,7 +446,7 @@ function main(items) {
   let bannerBtn = document.getElementById('34b');
 
   bannerBtn.addEventListener('click', (event) => addToStorage(event, items[10]));
-  let storageCart = ls.get('cart') || [];
+  let storageCart = ls.get(`${userId}`) || [];
 
   function addToStorage(event, item) {
     const product = storageCart.find((cartProduct) => cartProduct.deviceId === item.id);
@@ -388,7 +472,7 @@ function main(items) {
       }
     }
 
-    ls.set('cart', storageCart);
+    ls.set(`${userId}`, storageCart);
 
     countTotal();
     event.stopPropagation();
@@ -477,7 +561,7 @@ function main(items) {
     document.getElementById(`itemCount_${element.deviceId}`).innerText = element.quantity;
     document.getElementById(`itemPrice_${element.deviceId}`).innerText = element.totalPrice;
   }
-  let itemsInStorage = ls.get('cart');
+  let itemsInStorage = ls.get(`${userId}`);
   if (itemsInStorage && itemsInStorage.length > 0) {
     itemsInStorage.forEach(addToCart);
     countTotal();
@@ -485,7 +569,7 @@ function main(items) {
     console.log('Storage is empty');
   }
   function countTotal() {
-    let cartData = ls.get('cart') || {};
+    let cartData = ls.get(`${userId}`) || {};
     let totPr = 0;
     let totAm = 0;
     for (let itemKey in cartData) {
@@ -506,7 +590,7 @@ function main(items) {
       product.quantity--;
       product.totalPrice = Number(product.totalPrice) - Number(product.devicePrice);
       updateCart(product);
-      ls.set('cart', storageCart);
+      ls.set(`${userId}`, storageCart);
       countTotal();
     }
   }
@@ -520,7 +604,7 @@ function main(items) {
       product.quantity++;
       product.totalPrice = Number(product.totalPrice) + Number(product.devicePrice);
       updateCart(product);
-      ls.set('cart', storageCart);
+      ls.set(`${userId}`, storageCart);
       countTotal();
     }
   }
@@ -534,7 +618,7 @@ function main(items) {
         storageCart.splice(index, 1);
       }
 
-      ls.set('cart', storageCart);
+      ls.set(`${userId}`, storageCart);
       countTotal();
     } else {
       console.log('Cart is empty');

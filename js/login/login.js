@@ -30,17 +30,27 @@ async function sendForm(e) {
         if (storageToken == []) {
           storageToken.push(tokenUser);
           ls.set('token', storageToken);
-          console.log('true');
         } else {
           storageToken.shift();
           storageToken.push(tokenUser);
           ls.set('token', storageToken);
-          console.log(storageToken);
         }
+        let user = ls.get('user') || [];
+        if (user == []) {
+          ls.set('user', res.userId);
+        } else {
+          user.shift();
+          user.push(res.userId);
+          ls.set('user', user);
+        }
+        let storageUser = ls.get(`${res.userId}`) || [];
+        console.log(storageUser);
 
         loadItems(tokenUser);
         //findItems(tokenUser);
       }
+    } else if (xhr.status != 200) {
+      alert(`Error ${xhr.status}: ${JSON.parse(xhr.response).msg}`);
     }
   };
   xhr.send(`username=${username}&password=${password}`);

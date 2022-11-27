@@ -26,8 +26,8 @@
         <label class="lbl" for="email">Email</label>
         <input class="form-input" type="text" name="email" id="email-signup" />
         <label class="lbl" for="password">Password</label>
-        <input class="form-input" type="text" name="password" id="password-signup" />
-
+        <input class="form-input" type="password" name="password" id="password-signup" />
+        <input type="checkbox" id="showPasReg" />Show Password
         <input type="submit" value="Sign up" />
         <button id="to-login-form">Login</button>
       </form>
@@ -40,8 +40,8 @@
         <input class="form-input" type="text" name="username" id="username-login" />
         <label class="lbl" for="password">Password</label>
 
-        <input class="form-input" type="text" name="password" id="password-login" />
-
+        <input class="form-input" type="password" name="password" id="password-login" />
+        <input type="checkbox" id="showPasLog" />Show Password
         <input type="submit" value="Login" />
 
         <button id="to-signup-form"><u>Sign up</u></button>
@@ -128,38 +128,38 @@
         <section class="section-items">
           <div id="cont-show" class="container filter-card-cont">
             <div id="sort-fields" class="sort-fields">
-              <div class="price-field row">
+              <div class="price-field row" id="price-field">
                 <h4>Price</h4>
                 <span id="price-show" class="arrow-right"></span>
               </div>
               <div id="price-sort" class="price-sort cont">
                 <div class="price-fields">
                   <span>From: </span>
-                  <input type="number" id="from-price" class="from-price" min="1" max="99999999" />
+                  <input type="number" id="from-price" class="from-price" />
                 </div>
                 <div class="price-fields">
                   <span>To: </span>
-                  <input type="number" id="to-price" class="to-price" min="1" max="99999999" />
+                  <input type="number" id="to-price" class="to-price" />
                 </div>
               </div>
-              <div class="color-field row">
+              <div class="color-field row" id="color-field">
                 <h4>Color</h4>
                 <span id="color-show" class="arrow-right"></span>
               </div>
               <div id="color-sort" class="color-sort cont">
                 <div id="color-flex" class="color-flex"></div>
               </div>
-              <div class="memory-field row">
+              <div class="memory-field row" id="memory-field">
                 <h4>Memory</h4>
                 <span id="memory-show" class="arrow-right"></span>
               </div>
               <div id="memory-sort" class="memory-sort cont"></div>
-              <div class="os-field row">
+              <div class="os-field row" id="os-field">
                 <h4>OS</h4>
                 <span id="os-show" class="arrow-right"></span>
               </div>
               <div id="os-sort" class="os-sort cont"></div>
-              <div class="display-field row">
+              <div class="display-field row" id="display-field">
                 <h4>Display</h4>
                 <span id="display-show" class="arrow-right"></span>
               </div>
@@ -207,5 +207,7 @@
     <script type="module" src="js/login/login.js"></script>
     <script type="module" src="js/signup/closeandswitchS.js"></script>
     <script type="module" src="js/login/closeandswitchI.js"></script>
+    <script type="module" src="js/login/showPassLogin.js"></script>
+    <script type="module" src="js/signup/showPassReg.js"></script>
   </body>
 </html>

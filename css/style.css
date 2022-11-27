@@ -63,7 +63,6 @@ h4{
     line-height: 14px;
     color:var(--black);
 }
-
 .sort-item{
   background-color: var(--blue-bg);
   width: 40px;
@@ -253,6 +252,7 @@ border-radius: 5px;
 }
 .sort-items-div{
     width: 50%;
+    padding-bottom: 5px;
 }
 .sort-items-div label{
     display: flex;
@@ -308,7 +308,7 @@ input[type="button"]{
     align-items: center;
     width: 90%;
 }
-input[type='text']{
+input[type='text'],input[type='password']{
     width: 100%;
     font-weight: 400;
     font-size: 18px;
@@ -562,6 +562,7 @@ border-radius: 10px;
     align-items: center;
     border-bottom:  1px solid #DDDADA;
 }
+
 .cont{
     padding: 15px;
     border-bottom:  1px solid #DDDADA;
@@ -572,10 +573,24 @@ border-radius: 10px;
 .os-sort,
 .display-sort{
     display: none;
+    
+}
+
+.row h4{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    
+    
 }
 .from-price,
 .to-price{
-    border: 1px solid black;
+    width: 150px;
+    height: 38.92px;
+    background: #FFFFFF;
+    border: 1px solid #E2E2E2;
+    border-radius: 5px;
 }
 button:disabled{
     background: rgb(71, 67, 67);
