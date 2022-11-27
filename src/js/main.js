@@ -467,7 +467,7 @@ function main(items) {
       addToCart(newCartItem);
     }
 
-    if (product && product?.quantity < item.orderInfo.inStock) {
+    if (product && product?.quantity < item.orderInfo_inStock) {
       if (product.quantity < 4) {
         product.quantity++;
         product.totalPrice = product.devicePrice * product.quantity;
