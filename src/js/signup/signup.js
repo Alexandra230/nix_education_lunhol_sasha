@@ -11,7 +11,7 @@ async function sendForm(e) {
   let password = document.getElementById('password-signup').value;
 
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', 'http://localhost:8000/users/signup', true);
+  xhr.open('POST', `${process.env.HEROKU}users/signup`, true);
 
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
