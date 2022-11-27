@@ -1,4 +1,7 @@
 import { LocalStorageService } from './localStorageService.js';
+const LOCALHOST = 'http://localhost:8000/';
+const HEROKU = 'https://mac-outlet-shop-new.herokuapp.com/';
+
 const ls = new LocalStorageService();
 let openSort = document.getElementById('open-sort');
 let container = document.getElementById('cont-show');
@@ -13,7 +16,7 @@ function main(items) {
   findInput.addEventListener('input', async function () {
     let t = ls.get('token');
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', `http://localhost:8000/users/name?name=${findInput.value}`);
+    xhr.open('GET', `${HEROKU}users/name?name=${findInput.value}`);
     xhr.setRequestHeader('x-access-token', t);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
