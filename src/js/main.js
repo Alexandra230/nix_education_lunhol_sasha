@@ -136,16 +136,16 @@ function main(items) {
   let priceSort = document.getElementById('price-sort');
   let priceField = document.getElementById('price-field');
   let price = document.getElementById('price-show');
-  priceField.addEventListener('click', function () {
-    if (price.getAttribute('class') === 'arrow-right' && priceSort.style.display === 'none') {
-      price.setAttribute('class', 'arrow-bottom');
-      priceSort.style.display = 'block';
-    } else {
-      price.setAttribute('class', 'arrow-right');
-      priceSort.style.display = 'none';
-    }
-    countMinMax();
-  });
+  // priceField.addEventListener('click', function () {
+  //   if (price.getAttribute('class') === 'arrow-right' && priceSort.style.display === 'none') {
+  //     price.setAttribute('class', 'arrow-bottom');
+  //     priceSort.style.display = 'block';
+  //   } else {
+  //     price.setAttribute('class', 'arrow-right');
+  //     priceSort.style.display = 'none';
+  //   }
+  //   countMinMax();
+  // });
   price.addEventListener('click', function () {
     if (price.getAttribute('class') === 'arrow-right' && priceSort.style.display === 'none') {
       price.setAttribute('class', 'arrow-bottom');
@@ -183,15 +183,15 @@ function main(items) {
   let memoryShow = document.getElementById('memory-show');
   let memoryField = document.getElementById('memory-field');
 
-  memoryField.addEventListener('click', function () {
-    if (memoryShow.getAttribute('class') === 'arrow-right' && memorySort.style.display === 'none') {
-      memoryShow.setAttribute('class', 'arrow-bottom');
-      memorySort.style.display = 'block';
-    } else {
-      memoryShow.setAttribute('class', 'arrow-right');
-      memorySort.style.display = 'none';
-    }
-  });
+  // memoryField.addEventListener('click', function () {
+  //   if (memoryShow.getAttribute('class') === 'arrow-right' && memorySort.style.display === 'none') {
+  //     memoryShow.setAttribute('class', 'arrow-bottom');
+  //     memorySort.style.display = 'block';
+  //   } else {
+  //     memoryShow.setAttribute('class', 'arrow-right');
+  //     memorySort.style.display = 'none';
+  //   }
+  // });
 
   memoryShow.addEventListener('click', function () {
     if (memoryShow.getAttribute('class') === 'arrow-right' && memorySort.style.display === 'none') {
@@ -228,15 +228,15 @@ function main(items) {
   let osShow = document.getElementById('os-show');
   let osField = document.getElementById('os-field');
 
-  osField.addEventListener('click', function () {
-    if (osShow.getAttribute('class') === 'arrow-right' && osSort.style.display === 'none') {
-      osShow.setAttribute('class', 'arrow-bottom');
-      osSort.style.display = 'block';
-    } else {
-      osShow.setAttribute('class', 'arrow-right');
-      osSort.style.display = 'none';
-    }
-  });
+  // osField.addEventListener('click', function () {
+  //   if (osShow.getAttribute('class') === 'arrow-right' && osSort.style.display === 'none') {
+  //     osShow.setAttribute('class', 'arrow-bottom');
+  //     osSort.style.display = 'block';
+  //   } else {
+  //     osShow.setAttribute('class', 'arrow-right');
+  //     osSort.style.display = 'none';
+  //   }
+  // });
 
   osShow.addEventListener('click', function () {
     if (osShow.getAttribute('class') === 'arrow-right' && osSort.style.display === 'none') {
@@ -272,18 +272,18 @@ function main(items) {
   let displayShow = document.getElementById('display-show');
   let displayField = document.getElementById('display-field');
 
-  displayField.addEventListener('click', function () {
-    if (
-      displayShow.getAttribute('class') === 'arrow-right' &&
-      displaySort.style.display === 'none'
-    ) {
-      displayShow.setAttribute('class', 'arrow-bottom');
-      displaySort.style.display = 'block';
-    } else {
-      displayShow.setAttribute('class', 'arrow-right');
-      displaySort.style.display = 'none';
-    }
-  });
+  // displayField.addEventListener('click', function () {
+  //   if (
+  //     displayShow.getAttribute('class') === 'arrow-right' &&
+  //     displaySort.style.display === 'none'
+  //   ) {
+  //     displayShow.setAttribute('class', 'arrow-bottom');
+  //     displaySort.style.display = 'block';
+  //   } else {
+  //     displayShow.setAttribute('class', 'arrow-right');
+  //     displaySort.style.display = 'none';
+  //   }
+  // });
 
   displayShow.addEventListener('click', function () {
     if (
