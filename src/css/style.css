@@ -275,6 +275,7 @@ border-radius: 5px;
 .addbtn:hover{
     background: #4682B4;
     border: 1px solid #4682B4;
+    cursor: pointer;
 }
 
 .header-wrap{
