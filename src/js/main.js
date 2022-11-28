@@ -16,7 +16,7 @@ function main(items) {
   findInput.addEventListener('input', async function () {
     let t = ls.get('token');
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', `${HEROKU}users/name?name=${findInput.value}`);
+    xhr.open('GET', `${LOCALHOST}users/name?name=${findInput.value}`);
     xhr.setRequestHeader('x-access-token', t);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
@@ -378,7 +378,10 @@ function main(items) {
       if (product.orderInfo_inStock === 0) {
         btn.disabled = 'true';
       }
-      btn.addEventListener('click', (event) => addToStorage(event, product));
+      let x = 0;
+      btn.addEventListener('click', (event) => {
+        addToStorage(event, product);
+      });
     });
   }
 
@@ -390,7 +393,6 @@ function main(items) {
     let x1 = document.getElementById('modalBack');
     x1.style.display = 'block';
     let text = '';
-    console.log(element);
     text +=
       '<div class ="modal-img"> <img src="./img/' +
       items[element.id - 1].imgUrl +
@@ -465,6 +467,11 @@ function main(items) {
       };
       storageCart.push(newCartItem);
       addToCart(newCartItem);
+      let msg = document.getElementById('msg-div');
+      msg.classList.add('msg-active');
+      setTimeout(function () {
+        msg.classList.remove('msg-active');
+      }, 1000);
     }
 
     if (product && product?.quantity < item.orderInfo_inStock) {
@@ -472,6 +479,11 @@ function main(items) {
         product.quantity++;
         product.totalPrice = product.devicePrice * product.quantity;
         updateCart(product);
+        let msg = document.getElementById('msg-div');
+        msg.classList.add('msg-active');
+        setTimeout(function () {
+          msg.classList.remove('msg-active');
+        }, 1000);
       }
     }
 
@@ -602,13 +614,15 @@ function main(items) {
   function plusItems(id) {
     id = parseInt(id.match(/\d+/));
     let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
-
-    if (product.quantity < 4) {
-      product.quantity++;
-      product.totalPrice = Number(product.totalPrice) + Number(product.devicePrice);
-      updateCart(product);
-      ls.set(`${userId}`, storageCart);
-      countTotal();
+    let item = items.find((el) => el.id === id);
+    if (product.quantity < item.orderInfo_inStock) {
+      if (product.quantity < 4) {
+        product.quantity++;
+        product.totalPrice = Number(product.totalPrice) + Number(product.devicePrice);
+        updateCart(product);
+        ls.set(`${userId}`, storageCart);
+        countTotal();
+      }
     }
   }
   function deleteItems(id) {
