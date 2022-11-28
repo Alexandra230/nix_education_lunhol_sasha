@@ -388,19 +388,17 @@ function main(items) {
   outputGoods(items, 30);
 
   function cardModal(element) {
+    //items.find((el)=> el.id === element.id)
     let x = document.getElementById('modal');
     x.style.display = 'flex';
     let x1 = document.getElementById('modalBack');
     x1.style.display = 'block';
     let text = '';
-    text +=
-      '<div class ="modal-img"> <img src="./img/' +
-      items[element.id - 1].imgUrl +
-      '" alt=""  /> </div>';
-    text += ' <div class="modal-info"> <h2>' + items[element.id - 1].name + '</h2> ';
+    text += '<div class ="modal-img"> <img src="./img/' + element.imgUrl + '" alt=""  /> </div>';
+    text += ' <div class="modal-info"> <h2>' + element.name + '</h2> ';
     text +=
       ' <div class="modal-footer"><div class="col01"><img class="like" src="./img/icons/like_filled.png" alt="like" /><p><b>' +
-      items[element.id - 1].orderInfo_reviews +
+      element.orderInfo_reviews +
       '%</b> Positive reviews</p><p>Above aletage</p>  </div>';
     text +=
       '<div class="col02"> <p><b>' +
@@ -408,45 +406,45 @@ function main(items) {
       '</b></p> <p>orders</p> </div>  </div>';
     text +=
       '<ul class="info-list"> <li class="info-item">Color: <b> ' +
-      items[element.id - 1].color_0 +
+      element.color_0 +
       '</b><b> ' +
-      items[element.id - 1].color_1 +
+      element.color_1 +
       '</b><b> ' +
-      items[element.id - 1].color_2 +
+      element.color_2 +
       '</b><b> ' +
-      items[element.id - 1].color_3 +
+      element.color_3 +
       '</b><b> ' +
-      items[element.id - 1].color_4 +
+      element.color_4 +
       '</b><b> ' +
-      items[element.id - 1].color_5 +
+      element.color_5 +
       '</b></li> <li class="info-item">Operating System:<b>   ' +
-      items[element.id - 1].os +
+      element.os +
       '</b></li> <li class="info-item">Chip:<b>   ' +
-      items[element.id - 1].chip_name +
+      element.chip_name +
       '</b>  </li> <li class="info-item">Height: <b> ' +
-      items[element.id - 1].size_height +
+      element.size_height +
       ' cm</b></li> <li class="info-item">Width: <b> ' +
-      items[element.id - 1].size_width +
+      element.size_width +
       ' cm</b></li> <li class="info-item">Depth: <b> ' +
-      items[element.id - 1].size_depth +
+      element.size_depth +
       ' cm</b></li> <li class="info-item">Weight: <b> ' +
-      items[element.id - 1].size_weight +
+      element.size_weight +
       ' g</b></li> </ul>';
     text +=
       '</div> <div class="modal-price"><h2>$ ' +
-      items[element.id - 1].price +
+      element.price +
       '</h2> <span class="leftInStock">Stocks:<b> ' +
-      items[element.id - 1].orderInfo_inStock +
+      element.orderInfo_inStock +
       '</b> pcs.</span> <button id=' +
-      items[element.id - 1].id +
+      element.id +
       'm class="addbtn">Add to cart</button> </div>';
     x.innerHTML += text;
-    let btn = document.getElementById(`${items[element.id - 1].id}m`);
+    let btn = document.getElementById(`${element.id}m`);
 
     if (items[element.id - 1].orderInfo_inStock === 0) {
       btn.disabled = 'true';
     }
-    btn.addEventListener('click', (event) => addToStorage(event, items[element.id - 1]));
+    btn.addEventListener('click', (event) => addToStorage(event, element));
   }
   let bannerBtn = document.getElementById('34b');
 
@@ -626,6 +624,7 @@ function main(items) {
     }
   }
   function deleteItems(id) {
+    let itemsInStorage = ls.get(`${userId}`);
     if (itemsInStorage) {
       id = parseInt(id.match(/\d+/));
       let product = storageCart.find((cartProduct) => cartProduct.deviceId === id);
