@@ -48,15 +48,15 @@ function main(items) {
   let colorSort = document.getElementById('color-sort');
   let colorShow = document.getElementById('color-show');
   let colorField = document.getElementById('color-field');
-  colorField.addEventListener('click', function () {
-    if (colorShow.getAttribute('class') === 'arrow-right' && colorSort.style.display === 'none') {
-      colorShow.setAttribute('class', 'arrow-bottom');
-      colorSort.style.display = 'block';
-    } else {
-      colorShow.setAttribute('class', 'arrow-right');
-      colorSort.style.display = 'none';
-    }
-  });
+  // colorField.addEventListener('click', function () {
+  //   if (colorShow.getAttribute('class') === 'arrow-right' && colorSort.style.display === 'none') {
+  //     colorShow.setAttribute('class', 'arrow-bottom');
+  //     colorSort.style.display = 'block';
+  //   } else {
+  //     colorShow.setAttribute('class', 'arrow-right');
+  //     colorSort.style.display = 'none';
+  //   }
+  // });
   colorShow.addEventListener('click', function () {
     if (colorShow.getAttribute('class') === 'arrow-right' && colorSort.style.display === 'none') {
       colorShow.setAttribute('class', 'arrow-bottom');
